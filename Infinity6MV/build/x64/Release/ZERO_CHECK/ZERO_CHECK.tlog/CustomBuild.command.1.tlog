@@ -1,0 +1,10 @@
+^C:\USERS\RENZO\ONEDRIVE\DOCUMENTS\GITHUB\G4LINACS\INFINITY6MV\BUILD\CMAKEFILES\DBE559BB4BC608B3C96276BAA09B4B3B\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Infinity6MV -BC:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Infinity6MV/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Infinity6MV/build/Simulation.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

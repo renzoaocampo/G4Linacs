@@ -1,0 +1,61 @@
+# Archivo de macro por defecto para Geant4
+# Aquí se definen los parámetros de la simulación
+
+# Inicializar el detector y el resto del sistema
+/run/initialize
+
+# ---------------------------
+# Configuración del GPS (General Particle Source)
+# ---------------------------
+# Tipo de partícula
+/gps/particle e-
+
+# Distribución espacial gaussiana (haz elíptico)
+/gps/pos/type Beam
+/gps/pos/shape Circle
+/gps/pos/centre 0 0 100.05 cm
+/gps/pos/sigma_x 1.0 mm   # cross-plane (Y)
+/gps/pos/sigma_y 2.1  mm  # in-plane (Z)
+# NOTA: en Geant4, X es dirección del haz → dispersión está en Y y Z
+
+# Dirección fija del haz (colimado hacia +X)
+/gps/ang/type beam2d
+/gps/ang/rot2 0 1 0       # define plano para dirección +X
+/gps/ang/sigma_x 1.35 deg
+/gps/ang/sigma_y 1.35 deg
+
+
+# Energía monoenergética
+/gps/ene/type Mono
+/gps/ene/mono 6.6 MeV
+/process/em/setDirectionalSplitting true 
+/process/em/setDirectionalSplittingTarget 0 0 0 cm 
+/process/em/setDirectionalSplittingRadius 29.7 cm 
+/process/em/setSecBiasing eBrem TargetRegion 70 7 MeV 
+
+# ---------------------------
+# Número de partículas a generar
+# ---------------------------
+#/run/beamOn 2000000000 # Simular 2 millones de eventos  
+# ---------------------------
+# Visualización
+# ---------------------------
+
+/vis/open OGL                         # Abrir visualizador OpenGL
+ 
+/vis/drawVolume                       # Dibujar los volúmenes geométricos
+/vis/scene/add/axes                   # Agregar ejes XYZ a la escena
+/vis/scene/add/trajectories smooth    # Dibujar trayectorias suavizadas
+
+ 
+
+/vis/scene/add/hits                  # Mostrar hits
+#/vis/scene/add/digits                # Mostrar digits (si los hay)
+#/vis/scene/add/eventID               # Mostrar ID del evento
+
+/vis/viewer/set/autoRefresh true     # Refrescar automáticamente la escena
+/vis/viewer/flush
+/vis/viewer/zoom 1.5
+
+/vis/scene/endOfEventAction accumulate  # Acumular eventos visualizados
+/vis/scene/endOfRunAction accumulate    # Acumular eventos al final del run 

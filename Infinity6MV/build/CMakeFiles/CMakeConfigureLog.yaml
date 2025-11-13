@@ -1,0 +1,401 @@
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.30/Modules/CMakeDetermineSystem.cmake:205 (message)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      The system is: Windows - 10.0.26200 - AMD64
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.30/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.30/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.30/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler:  
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      Versi├│n de MSBuild 17.13.19+0d9f5a35a para .NET Framework
+      Compilaci├│n iniciada a las 13/11/2025 16:43:53.
+      
+      Proyecto "C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\3.30.5-msvc23\\CompilerIdCXX\\CompilerIdCXX.vcxproj" en nodo 1 (destinos predeterminados).
+      PrepareForBuild:
+        Creando directorio "Debug\\".
+        La salida estructurada est├í habilitada. El formato del diagn├│stico del compilador reflejar├í la jerarqu├¡a de errores. Consulte https://aka.ms/cpp/structured-output para obtener m├ís detalles.
+        Creando directorio "Debug\\CompilerIdCXX.tlog\\".
+      InitializeBuildStatus:
+        Se crear├í "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild" porque se especific├│ "AlwaysCreate".
+        Aplicando tarea Touch a "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild".
+      ClCompile:
+        C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.43.34808\\bin\\HostX64\\x64\\CL.exe /c /nologo /W0 /WX- /diagnostics:column /Od /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\\\" /Fd"Debug\\vc143.pdb" /external:W0 /Gd /TP /FC /errorReport:queue CMakeCXXCompilerId.cpp
+        CMakeCXXCompilerId.cpp
+      Link:
+        C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.43.34808\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:".\\CompilerIdCXX.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\\CompilerIdCXX.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\\CompilerIdCXX.lib" /MACHINE:X64 Debug\\CMakeCXXCompilerId.obj
+        CompilerIdCXX.vcxproj -> C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\3.30.5-msvc23\\CompilerIdCXX\\CompilerIdCXX.exe
+      PostBuildEvent:
+        for %%i in (cl.exe) do @echo CMAKE_CXX_COMPILER=%%~$PATH:i
+        :VCEnd
+        CMAKE_CXX_COMPILER=C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.43.34808\\bin\\Hostx64\\x64\\cl.exe
+      FinalizeBuildStatus:
+        Se eliminar├í el archivo "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild".
+        Aplicando tarea Touch a "Debug\\CompilerIdCXX.tlog\\CompilerIdCXX.lastbuildstate".
+      Compilaci├│n del proyecto terminada "C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\3.30.5-msvc23\\CompilerIdCXX\\CompilerIdCXX.vcxproj" (destinos predeterminados).
+      
+      Compilaci├│n correcta.
+          0 Advertencia(s)
+          0 Errores
+      
+      Tiempo transcurrido 00:00:01.22
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.exe"
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.vcxproj"
+      
+      The CXX compiler identification is MSVC, found in:
+        C:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Infinity6MV/build/CMakeFiles/3.30.5-msvc23/CompilerIdCXX/CompilerIdCXX.exe
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.30/Modules/CMakeDetermineCompilerABI.cmake:74 (try_compile)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.30/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    checks:
+      - "Detecting CXX compiler ABI info"
+    directories:
+      source: "C:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Infinity6MV/build/CMakeFiles/CMakeScratch/TryCompile-acv2vr"
+      binary: "C:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Infinity6MV/build/CMakeFiles/CMakeScratch/TryCompile-acv2vr"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /EHsc"
+      CMAKE_CXX_FLAGS_DEBUG: "/Ob0 /Od /RTC1"
+      CMAKE_CXX_SCAN_FOR_MODULES: "OFF"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+    buildResult:
+      variable: "CMAKE_CXX_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Infinity6MV/build/CMakeFiles/CMakeScratch/TryCompile-acv2vr'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_b8809.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        Versi├│n de MSBuild 17.13.19+0d9f5a35a para .NET Framework
+        Compilaci├│n iniciada a las 13/11/2025 16:43:55.
+        
+        Proyecto "C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-acv2vr\\cmTC_b8809.vcxproj" en nodo 1 (destinos predeterminados).
+        PrepareForBuild:
+          Creando directorio "cmTC_b8809.dir\\Debug\\".
+          La salida estructurada est├í habilitada. El formato del diagn├│stico del compilador reflejar├í la jerarqu├¡a de errores. Consulte https://aka.ms/cpp/structured-output para obtener m├ís detalles.
+          Creando directorio "C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-acv2vr\\Debug\\".
+          Creando directorio "cmTC_b8809.dir\\Debug\\cmTC_b8809.tlog\\".
+        InitializeBuildStatus:
+          Se crear├í "cmTC_b8809.dir\\Debug\\cmTC_b8809.tlog\\unsuccessfulbuild" porque se especific├│ "AlwaysCreate".
+          Aplicando tarea Touch a "cmTC_b8809.dir\\Debug\\cmTC_b8809.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.43.34808\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_b8809.dir\\Debug\\\\" /Fd"cmTC_b8809.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\share\\cmake-3.30\\Modules\\CMakeCXXCompilerABI.cpp"
+          Compilador de optimizaci├│n de C/C++ de Microsoft (R) versi├│n 19.43.34809 para x64
+          (C) Microsoft Corporation. Todos los derechos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_b8809.dir\\Debug\\\\" /Fd"cmTC_b8809.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\share\\cmake-3.30\\Modules\\CMakeCXXCompilerABI.cpp"
+          CMakeCXXCompilerABI.cpp
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.43.34808\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-acv2vr\\Debug\\cmTC_b8809.exe" /INCREMENTAL /ILK:"cmTC_b8809.dir\\Debug\\cmTC_b8809.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Infinity6MV/build/CMakeFiles/CMakeScratch/TryCompile-acv2vr/Debug/cmTC_b8809.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Infinity6MV/build/CMakeFiles/CMakeScratch/TryCompile-acv2vr/Debug/cmTC_b8809.lib" /MACHINE:X64  /machine:x64 cmTC_b8809.dir\\Debug\\CMakeCXXCompilerABI.obj
+          cmTC_b8809.vcxproj -> C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-acv2vr\\Debug\\cmTC_b8809.exe
+        FinalizeBuildStatus:
+          Se eliminar├í el archivo "cmTC_b8809.dir\\Debug\\cmTC_b8809.tlog\\unsuccessfulbuild".
+          Aplicando tarea Touch a "cmTC_b8809.dir\\Debug\\cmTC_b8809.tlog\\cmTC_b8809.lastbuildstate".
+        Compilaci├│n del proyecto terminada "C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-acv2vr\\cmTC_b8809.vcxproj" (destinos predeterminados).
+        
+        Compilaci├│n correcta.
+            0 Advertencia(s)
+            0 Errores
+        
+        Tiempo transcurrido 00:00:00.71
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.30/Modules/CMakeDetermineCompilerABI.cmake:218 (message)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.30/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Parsed CXX implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(\\.[a-z]+)?|link\\.exe|lld-link(\\.exe)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(\\.[a-z]+)?|link\\.exe|lld-link(\\.exe)?))("|,| |$)]
+        linker tool for 'CXX': C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.43.34808/bin/HostX64/x64/link.exe
+        implicit libs: []
+        implicit objs: []
+        implicit dirs: []
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.30/Modules/Internal/CMakeDetermineLinkerId.cmake:40 (message)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.30/Modules/CMakeDetermineCompilerABI.cmake:255 (cmake_determine_linker_id)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.30/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Running the CXX compiler's linker: "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.43.34808/bin/HostX64/x64/link.exe" "-v"
+      Microsoft (R) Incremental Linker Version 14.43.34809.0
+      Copyright (C) Microsoft Corporation.  All rights reserved.
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.30/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.30/Modules/CheckCXXSourceCompiles.cmake:52 (cmake_check_source_compiles)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.30/Modules/FindThreads.cmake:99 (CHECK_CXX_SOURCE_COMPILES)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.30/Modules/FindThreads.cmake:163 (_threads_check_libc)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.30/Modules/CMakeFindDependencyMacro.cmake:76 (find_package)"
+      - "C:/geant4/geant4-v11.3.0-install/lib/cmake/Geant4/PTL/PTLConfig.cmake:56 (find_dependency)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.30/Modules/CMakeFindDependencyMacro.cmake:76 (find_package)"
+      - "C:/geant4/geant4-v11.3.0-install/lib/cmake/Geant4/Geant4Config.cmake:300 (find_dependency)"
+      - "CMakeLists.txt:5 (find_package)"
+    checks:
+      - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
+    directories:
+      source: "C:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Infinity6MV/build/CMakeFiles/CMakeScratch/TryCompile-7l80xf"
+      binary: "C:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Infinity6MV/build/CMakeFiles/CMakeScratch/TryCompile-7l80xf"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /EHsc"
+      CMAKE_CXX_FLAGS_DEBUG: "/Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/geant4/geant4-v11.3.0-install/lib/cmake/Geant4/Modules"
+    buildResult:
+      variable: "CMAKE_HAVE_LIBC_PTHREAD"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Infinity6MV/build/CMakeFiles/CMakeScratch/TryCompile-7l80xf'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_28b8f.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        Versi├│n de MSBuild 17.13.19+0d9f5a35a para .NET Framework
+        Compilaci├│n iniciada a las 13/11/2025 16:43:57.
+        
+        Proyecto "C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-7l80xf\\cmTC_28b8f.vcxproj" en nodo 1 (destinos predeterminados).
+        PrepareForBuild:
+          Creando directorio "cmTC_28b8f.dir\\Debug\\".
+          La salida estructurada est├í habilitada. El formato del diagn├│stico del compilador reflejar├í la jerarqu├¡a de errores. Consulte https://aka.ms/cpp/structured-output para obtener m├ís detalles.
+          Creando directorio "C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-7l80xf\\Debug\\".
+          Creando directorio "cmTC_28b8f.dir\\Debug\\cmTC_28b8f.tlog\\".
+        InitializeBuildStatus:
+          Se crear├í "cmTC_28b8f.dir\\Debug\\cmTC_28b8f.tlog\\unsuccessfulbuild" porque se especific├│ "AlwaysCreate".
+          Aplicando tarea Touch a "cmTC_28b8f.dir\\Debug\\cmTC_28b8f.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.43.34808\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CMAKE_HAVE_LIBC_PTHREAD /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_28b8f.dir\\Debug\\\\" /Fd"cmTC_28b8f.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue "C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-7l80xf\\src.cxx"
+          Compilador de optimizaci├│n de C/C++ de Microsoft (R) versi├│n 19.43.34809 para x64
+          (C) Microsoft Corporation. Todos los derechos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CMAKE_HAVE_LIBC_PTHREAD /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_28b8f.dir\\Debug\\\\" /Fd"cmTC_28b8f.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue "C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-7l80xf\\src.cxx"
+          src.cxx
+        C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-7l80xf\\src.cxx(1,10): error C1083: No se puede abrir el archivo incluir: 'pthread.h': No such file or directory [C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-7l80xf\\cmTC_28b8f.vcxproj]
+        Compilaci├│n del proyecto terminada "C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-7l80xf\\cmTC_28b8f.vcxproj" (destinos predeterminados) -- ERROR.
+        
+        ERROR al compilar.
+        
+        "C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-7l80xf\\cmTC_28b8f.vcxproj" (destino predeterminado) (1) ->
+        (ClCompile destino) -> 
+          C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-7l80xf\\src.cxx(1,10): error C1083: No se puede abrir el archivo incluir: 'pthread.h': No such file or directory [C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-7l80xf\\cmTC_28b8f.vcxproj]
+        
+            0 Advertencia(s)
+            1 Errores
+        
+        Tiempo transcurrido 00:00:00.63
+        
+      exitCode: 1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.30/Modules/CheckLibraryExists.cmake:69 (try_compile)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.30/Modules/FindThreads.cmake:112 (CHECK_LIBRARY_EXISTS)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.30/Modules/FindThreads.cmake:175 (_threads_check_lib)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.30/Modules/CMakeFindDependencyMacro.cmake:76 (find_package)"
+      - "C:/geant4/geant4-v11.3.0-install/lib/cmake/Geant4/PTL/PTLConfig.cmake:56 (find_dependency)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.30/Modules/CMakeFindDependencyMacro.cmake:76 (find_package)"
+      - "C:/geant4/geant4-v11.3.0-install/lib/cmake/Geant4/Geant4Config.cmake:300 (find_dependency)"
+      - "CMakeLists.txt:5 (find_package)"
+    checks:
+      - "Looking for pthread_create in pthreads"
+    directories:
+      source: "C:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Infinity6MV/build/CMakeFiles/CMakeScratch/TryCompile-sygykw"
+      binary: "C:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Infinity6MV/build/CMakeFiles/CMakeScratch/TryCompile-sygykw"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /EHsc"
+      CMAKE_CXX_FLAGS_DEBUG: "/Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/geant4/geant4-v11.3.0-install/lib/cmake/Geant4/Modules"
+    buildResult:
+      variable: "CMAKE_HAVE_PTHREADS_CREATE"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Infinity6MV/build/CMakeFiles/CMakeScratch/TryCompile-sygykw'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_a73d5.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        Versi├│n de MSBuild 17.13.19+0d9f5a35a para .NET Framework
+        Compilaci├│n iniciada a las 13/11/2025 16:43:58.
+        
+        Proyecto "C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-sygykw\\cmTC_a73d5.vcxproj" en nodo 1 (destinos predeterminados).
+        PrepareForBuild:
+          Creando directorio "cmTC_a73d5.dir\\Debug\\".
+          La salida estructurada est├í habilitada. El formato del diagn├│stico del compilador reflejar├í la jerarqu├¡a de errores. Consulte https://aka.ms/cpp/structured-output para obtener m├ís detalles.
+          Creando directorio "C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-sygykw\\Debug\\".
+          Creando directorio "cmTC_a73d5.dir\\Debug\\cmTC_a73d5.tlog\\".
+        InitializeBuildStatus:
+          Se crear├í "cmTC_a73d5.dir\\Debug\\cmTC_a73d5.tlog\\unsuccessfulbuild" porque se especific├│ "AlwaysCreate".
+          Aplicando tarea Touch a "cmTC_a73d5.dir\\Debug\\cmTC_a73d5.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.43.34808\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_a73d5.dir\\Debug\\\\" /Fd"cmTC_a73d5.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue "C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-sygykw\\CheckFunctionExists.cxx"
+          Compilador de optimizaci├│n de C/C++ de Microsoft (R) versi├│n 19.43.34809 para x64
+          (C) Microsoft Corporation. Todos los derechos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_a73d5.dir\\Debug\\\\" /Fd"cmTC_a73d5.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue "C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-sygykw\\CheckFunctionExists.cxx"
+          CheckFunctionExists.cxx
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.43.34808\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-sygykw\\Debug\\cmTC_a73d5.exe" /INCREMENTAL /ILK:"cmTC_a73d5.dir\\Debug\\cmTC_a73d5.ilk" /NOLOGO pthreads.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Infinity6MV/build/CMakeFiles/CMakeScratch/TryCompile-sygykw/Debug/cmTC_a73d5.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Infinity6MV/build/CMakeFiles/CMakeScratch/TryCompile-sygykw/Debug/cmTC_a73d5.lib" /MACHINE:X64  /machine:x64 cmTC_a73d5.dir\\Debug\\CheckFunctionExists.obj
+        LINK : fatal error LNK1104: no se puede abrir el archivo 'pthreads.lib' [C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-sygykw\\cmTC_a73d5.vcxproj]
+        Compilaci├│n del proyecto terminada "C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-sygykw\\cmTC_a73d5.vcxproj" (destinos predeterminados) -- ERROR.
+        
+        ERROR al compilar.
+        
+        "C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-sygykw\\cmTC_a73d5.vcxproj" (destino predeterminado) (1) ->
+        (Link destino) -> 
+          LINK : fatal error LNK1104: no se puede abrir el archivo 'pthreads.lib' [C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-sygykw\\cmTC_a73d5.vcxproj]
+        
+            0 Advertencia(s)
+            1 Errores
+        
+        Tiempo transcurrido 00:00:00.79
+        
+      exitCode: 1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.30/Modules/CheckLibraryExists.cmake:69 (try_compile)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.30/Modules/FindThreads.cmake:112 (CHECK_LIBRARY_EXISTS)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.30/Modules/FindThreads.cmake:176 (_threads_check_lib)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.30/Modules/CMakeFindDependencyMacro.cmake:76 (find_package)"
+      - "C:/geant4/geant4-v11.3.0-install/lib/cmake/Geant4/PTL/PTLConfig.cmake:56 (find_dependency)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.30/Modules/CMakeFindDependencyMacro.cmake:76 (find_package)"
+      - "C:/geant4/geant4-v11.3.0-install/lib/cmake/Geant4/Geant4Config.cmake:300 (find_dependency)"
+      - "CMakeLists.txt:5 (find_package)"
+    checks:
+      - "Looking for pthread_create in pthread"
+    directories:
+      source: "C:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Infinity6MV/build/CMakeFiles/CMakeScratch/TryCompile-2nhqvc"
+      binary: "C:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Infinity6MV/build/CMakeFiles/CMakeScratch/TryCompile-2nhqvc"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /EHsc"
+      CMAKE_CXX_FLAGS_DEBUG: "/Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/geant4/geant4-v11.3.0-install/lib/cmake/Geant4/Modules"
+    buildResult:
+      variable: "CMAKE_HAVE_PTHREAD_CREATE"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Infinity6MV/build/CMakeFiles/CMakeScratch/TryCompile-2nhqvc'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_875c4.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        Versi├│n de MSBuild 17.13.19+0d9f5a35a para .NET Framework
+        Compilaci├│n iniciada a las 13/11/2025 16:43:59.
+        
+        Proyecto "C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-2nhqvc\\cmTC_875c4.vcxproj" en nodo 1 (destinos predeterminados).
+        PrepareForBuild:
+          Creando directorio "cmTC_875c4.dir\\Debug\\".
+          La salida estructurada est├í habilitada. El formato del diagn├│stico del compilador reflejar├í la jerarqu├¡a de errores. Consulte https://aka.ms/cpp/structured-output para obtener m├ís detalles.
+          Creando directorio "C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-2nhqvc\\Debug\\".
+          Creando directorio "cmTC_875c4.dir\\Debug\\cmTC_875c4.tlog\\".
+        InitializeBuildStatus:
+          Se crear├í "cmTC_875c4.dir\\Debug\\cmTC_875c4.tlog\\unsuccessfulbuild" porque se especific├│ "AlwaysCreate".
+          Aplicando tarea Touch a "cmTC_875c4.dir\\Debug\\cmTC_875c4.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.43.34808\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_875c4.dir\\Debug\\\\" /Fd"cmTC_875c4.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue "C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-2nhqvc\\CheckFunctionExists.cxx"
+          Compilador de optimizaci├│n de C/C++ de Microsoft (R) versi├│n 19.43.34809 para x64
+          (C) Microsoft Corporation. Todos los derechos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_875c4.dir\\Debug\\\\" /Fd"cmTC_875c4.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue "C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-2nhqvc\\CheckFunctionExists.cxx"
+          CheckFunctionExists.cxx
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.43.34808\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-2nhqvc\\Debug\\cmTC_875c4.exe" /INCREMENTAL /ILK:"cmTC_875c4.dir\\Debug\\cmTC_875c4.ilk" /NOLOGO pthread.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Infinity6MV/build/CMakeFiles/CMakeScratch/TryCompile-2nhqvc/Debug/cmTC_875c4.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Infinity6MV/build/CMakeFiles/CMakeScratch/TryCompile-2nhqvc/Debug/cmTC_875c4.lib" /MACHINE:X64  /machine:x64 cmTC_875c4.dir\\Debug\\CheckFunctionExists.obj
+        LINK : fatal error LNK1104: no se puede abrir el archivo 'pthread.lib' [C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-2nhqvc\\cmTC_875c4.vcxproj]
+        Compilaci├│n del proyecto terminada "C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-2nhqvc\\cmTC_875c4.vcxproj" (destinos predeterminados) -- ERROR.
+        
+        ERROR al compilar.
+        
+        "C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-2nhqvc\\cmTC_875c4.vcxproj" (destino predeterminado) (1) ->
+        (Link destino) -> 
+          LINK : fatal error LNK1104: no se puede abrir el archivo 'pthread.lib' [C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-2nhqvc\\cmTC_875c4.vcxproj]
+        
+            0 Advertencia(s)
+            1 Errores
+        
+        Tiempo transcurrido 00:00:00.48
+        
+      exitCode: 1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.30/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.30/Modules/CheckCXXSourceCompiles.cmake:52 (cmake_check_source_compiles)"
+      - "C:/Qt/6.8.2/msvc2022_64/lib/cmake/Qt6/FindWrapAtomic.cmake:36 (check_cxx_source_compiles)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.30/Modules/CMakeFindDependencyMacro.cmake:76 (find_package)"
+      - "C:/Qt/6.8.2/msvc2022_64/lib/cmake/Qt6/QtPublicDependencyHelpers.cmake:36 (find_dependency)"
+      - "C:/Qt/6.8.2/msvc2022_64/lib/cmake/Qt6Core/Qt6CoreDependencies.cmake:35 (_qt_internal_find_third_party_dependencies)"
+      - "C:/Qt/6.8.2/msvc2022_64/lib/cmake/Qt6Core/Qt6CoreConfig.cmake:45 (include)"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.30/Modules/CMakeFindDependencyMacro.cmake:76 (find_package)"
+      - "C:/geant4/geant4-v11.3.0-install/lib/cmake/Geant4/Geant4Config.cmake:370 (find_dependency)"
+      - "CMakeLists.txt:5 (find_package)"
+    checks:
+      - "Performing Test HAVE_STDATOMIC"
+    directories:
+      source: "C:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Infinity6MV/build/CMakeFiles/CMakeScratch/TryCompile-yxu5hz"
+      binary: "C:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Infinity6MV/build/CMakeFiles/CMakeScratch/TryCompile-yxu5hz"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /EHsc"
+      CMAKE_CXX_FLAGS_DEBUG: "/Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/geant4/geant4-v11.3.0-install/lib/cmake/Geant4/Modules;C:/Qt/6.8.2/msvc2022_64/lib/cmake/Qt6;C:/Qt/6.8.2/msvc2022_64/lib/cmake/Qt6/3rdparty/extra-cmake-modules/find-modules;C:/Qt/6.8.2/msvc2022_64/lib/cmake/Qt6/3rdparty/kwin"
+    buildResult:
+      variable: "HAVE_STDATOMIC"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Infinity6MV/build/CMakeFiles/CMakeScratch/TryCompile-yxu5hz'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_c760e.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        Versi├│n de MSBuild 17.13.19+0d9f5a35a para .NET Framework
+        Compilaci├│n iniciada a las 13/11/2025 16:44:01.
+        
+        Proyecto "C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-yxu5hz\\cmTC_c760e.vcxproj" en nodo 1 (destinos predeterminados).
+        PrepareForBuild:
+          Creando directorio "cmTC_c760e.dir\\Debug\\".
+          La salida estructurada est├í habilitada. El formato del diagn├│stico del compilador reflejar├í la jerarqu├¡a de errores. Consulte https://aka.ms/cpp/structured-output para obtener m├ís detalles.
+          Creando directorio "C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-yxu5hz\\Debug\\".
+          Creando directorio "cmTC_c760e.dir\\Debug\\cmTC_c760e.tlog\\".
+        InitializeBuildStatus:
+          Se crear├í "cmTC_c760e.dir\\Debug\\cmTC_c760e.tlog\\unsuccessfulbuild" porque se especific├│ "AlwaysCreate".
+          Aplicando tarea Touch a "cmTC_c760e.dir\\Debug\\cmTC_c760e.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.43.34808\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D HAVE_STDATOMIC /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_c760e.dir\\Debug\\\\" /Fd"cmTC_c760e.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue "C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-yxu5hz\\src.cxx"
+          Compilador de optimizaci├│n de C/C++ de Microsoft (R) versi├│n 19.43.34809 para x64
+          (C) Microsoft Corporation. Todos los derechos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D HAVE_STDATOMIC /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_c760e.dir\\Debug\\\\" /Fd"cmTC_c760e.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue "C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-yxu5hz\\src.cxx"
+          src.cxx
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.43.34808\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-yxu5hz\\Debug\\cmTC_c760e.exe" /INCREMENTAL /ILK:"cmTC_c760e.dir\\Debug\\cmTC_c760e.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Infinity6MV/build/CMakeFiles/CMakeScratch/TryCompile-yxu5hz/Debug/cmTC_c760e.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Infinity6MV/build/CMakeFiles/CMakeScratch/TryCompile-yxu5hz/Debug/cmTC_c760e.lib" /MACHINE:X64  /machine:x64 cmTC_c760e.dir\\Debug\\src.obj
+          cmTC_c760e.vcxproj -> C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-yxu5hz\\Debug\\cmTC_c760e.exe
+        FinalizeBuildStatus:
+          Se eliminar├í el archivo "cmTC_c760e.dir\\Debug\\cmTC_c760e.tlog\\unsuccessfulbuild".
+          Aplicando tarea Touch a "cmTC_c760e.dir\\Debug\\cmTC_c760e.tlog\\cmTC_c760e.lastbuildstate".
+        Compilaci├│n del proyecto terminada "C:\\Users\\renzo\\OneDrive\\Documents\\GitHub\\G4Linacs\\Infinity6MV\\build\\CMakeFiles\\CMakeScratch\\TryCompile-yxu5hz\\cmTC_c760e.vcxproj" (destinos predeterminados).
+        
+        Compilaci├│n correcta.
+            0 Advertencia(s)
+            0 Errores
+        
+        Tiempo transcurrido 00:00:00.73
+        
+      exitCode: 0
+...
