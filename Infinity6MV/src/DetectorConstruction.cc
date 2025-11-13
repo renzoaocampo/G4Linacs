@@ -134,7 +134,7 @@ logicWorld->SetVisAttributes(worldVis);
 
 //*========= Target =========
 G4double target_radius    = 1.0 * cm;   // Radio del disco
-G4double target_thickness = 0.09 * cm;  // Grosor en dirección del haz
+G4double target_thickness = 1.1 * cm;  // Grosor en dirección del haz
 G4double SSDValue         =100 * cm;
 
 G4Tubs* solidTarget = new G4Tubs("Target",
@@ -165,7 +165,7 @@ G4double filterRmin2  = 0.0 * cm;
 G4double filterRmax2  = 0.0 * cm;   // ahora va arriba
 
 // Posiciones invertidas en Z
-G4double filterZ = (SSDValue - 15.4 * cm);
+G4double filterZ = (SSDValue - 15.9 * cm);
 G4double discZ   = filterZ - (discThickness / 2 + filterHeight / 2);
 
 G4Tubs* solidDisc = new G4Tubs("AlDisc", 0, discRadius, discThickness / 2, 0, 360 * deg);
