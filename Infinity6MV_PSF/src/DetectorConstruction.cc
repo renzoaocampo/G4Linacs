@@ -111,11 +111,8 @@ G4bool checkOverlaps = true;
 
 
 
-
-
-
 //?============================================================
-//?                       GEOMETRÍA GEANT4
+//?                     GEOMETRÍA GEANT4
 //?============================================================
 
 //*========= Mundo =========
@@ -123,19 +120,63 @@ G4double worldX = 13.31 * m;
 G4double worldY = 13.31 * m;
 G4double worldZ = 13.01 * m;
 
-solidWorld = new G4Box("World", worldX / 2, worldY / 2, worldZ / 2);
-logicWorld = new G4LogicalVolume(solidWorld, worldMat, "World");
-physWorld  = new G4PVPlacement(0, G4ThreeVector(), logicWorld, "World", 0, false, 0, true);
+G4Box* solidWorld = new G4Box("World", worldX / 2, worldY / 2, worldZ / 2);
+G4LogicalVolume* logicWorld = new G4LogicalVolume(solidWorld, worldMat, "World"); // Asegúrate de que worldMat sea Aire o Vacío
+G4VPhysicalVolume* physWorld = new G4PVPlacement(0, G4ThreeVector(), logicWorld, "World", 0, false, 0, true);
 
-G4VisAttributes* worldVis = new G4VisAttributes(G4Colour(1.0,1.0,1.0,0.05)); // casi transparente
+G4VisAttributes* worldVis = new G4VisAttributes(G4Colour(1.0, 1.0, 1.0, 0.05));
 worldVis->SetForceSolid(true);
 logicWorld->SetVisAttributes(worldVis);
 
+//*========= CONSTANTES Y MATERIALES AUXILIARES =========
+G4double SSDValue = 100 * cm;
+G4Material* airMat = G4NistManager::Instance()->FindOrBuildMaterial("G4_AIR");
 
-//*========= Target =========
-G4double target_radius    = 1.0 * cm;   // Radio del disco
-G4double target_thickness = 1.1 * cm;  // Grosor en dirección del haz
-G4double SSDValue         =100 * cm;
+//*========= CONTENEDOR (CABEZAL) =========
+// Bloque que contiene todo. Dimensionado para abarcar desde Z=0 hasta Z>100 en coordenadas locales.
+// Usamos un tamaño generoso para evitar solapamientos internos.
+G4double headSizeXY = 1.5 * m;
+G4double headSizeZ  = 2.5 * m; // Suficiente para contener las coordenadas locales cercanas a 100cm
+
+G4Box* solidHead = new G4Box("HeadContainer", headSizeXY/2, headSizeXY/2, headSizeZ/2);
+G4LogicalVolume* logicHead = new G4LogicalVolume(solidHead, airMat, "HeadLogical"); // Todo está en aire
+
+// --- CÁLCULO DE POSICIÓN DEL CONTENEDOR ---
+// 1. La cara superior del target en coordenadas locales es:
+//    Z_local_top = (SSDValue - 11*mm) + (1.1*cm / 2.0)
+// 2. Queremos rotar 180 grados (eje X o Y). Al rotar 180 en X, Z se invierte (Z -> -Z).
+// 3. Para que esa cara quede en World Z=0:
+//    Z_world = R * Z_local + Traslacion
+//    0 = -1 * (Z_local_top) + Traslacion_Z
+//    Traslacion_Z = Z_local_top
+
+G4double targetZPos_local = SSDValue - 11 * mm;
+G4double targetHalfZ      = (1.1 * cm) / 2.0;
+G4double targetTopFace_local = targetZPos_local + targetHalfZ; 
+
+// Rotación de 180 grados
+G4RotationMatrix* rotHead = new G4RotationMatrix();
+rotHead->rotateX(180.0 * deg); 
+
+// Colocación del Contenedor en el Mundo
+new G4PVPlacement(rotHead, 
+                  G4ThreeVector(0, 0, targetTopFace_local), // Traslación calculada
+                  logicHead, 
+                  "HeadPhys", 
+                  logicWorld, 
+                  false, 
+                  0, 
+                  true);
+
+// Visualización del contenedor (opcional, transparente)
+G4VisAttributes* headVis = new G4VisAttributes(G4Colour(1, 1, 1, 0.1));
+headVis->SetVisibility(true); // Ocultar para ver el interior
+logicHead->SetVisAttributes(headVis);
+
+
+//*========= Target (Dentro de logicHead) =========
+G4double target_radius    = 1.0 * cm;
+G4double target_thickness = 1.1 * cm; // 11 mm
 
 G4Tubs* solidTarget = new G4Tubs("Target",
     0., target_radius,
@@ -148,40 +189,42 @@ G4Region* TargetRegion = new G4Region("TargetRegion");
 TargetRegion->AddRootLogicalVolume(logicTarget);
 
 G4ThreeVector posTarget(0, 0, SSDValue - 11 * mm);
-new G4PVPlacement(nullptr, posTarget, logicTarget, "Target", logicWorld, false, 0, true);
+// NOTA: Madre cambiada a logicHead
+new G4PVPlacement(nullptr, posTarget, logicTarget, "Target", logicHead, false, 0, true);
 
 G4VisAttributes* targetVis = new G4VisAttributes(G4Colour::Gray());
 targetVis->SetVisibility(true);
-logicTarget->SetVisAttributes(targetVis); 
+logicTarget->SetVisAttributes(targetVis);
 
-// //*========= Disco y filtro (invertidos en -Z) =========
+
+//*========= Disco y filtro (Dentro de logicHead) =========
 G4double discRadius    = 4.0 * cm;
 G4double discThickness = 0.5 * cm;
 
 G4double filterHeight = 2.77 * cm;
 G4double filterRmin1  = 0.0 * cm;
-G4double filterRmax1  = 4.0 * cm;   // ahora va abajo
+G4double filterRmax1  = 4.0 * cm;   
 G4double filterRmin2  = 0.0 * cm;
-G4double filterRmax2  = 0.0 * cm;   // ahora va arriba
+G4double filterRmax2  = 0.0 * cm;   
 
-// Posiciones invertidas en Z
+// Posiciones invertidas en Z (relativo a la estructura original)
 G4double filterZ = (SSDValue - 15.9 * cm);
 G4double discZ   = filterZ - (discThickness / 2 + filterHeight / 2);
 
 G4Tubs* solidDisc = new G4Tubs("AlDisc", 0, discRadius, discThickness / 2, 0, 360 * deg);
 
 G4Cons* solidFilter = new G4Cons("FlatteningFilter",
-    filterRmin1, filterRmax1,   // base en -Z
-    filterRmin2, filterRmax2,   // punta en +Z
+    filterRmin1, filterRmax1,   
+    filterRmin2, filterRmax2,   
     filterHeight / 2,
     0, 360 * deg);
 
 G4LogicalVolume* logicDisc   = new G4LogicalVolume(solidDisc, aluminum, "AlDiscLV");
 G4LogicalVolume* logicFilter = new G4LogicalVolume(solidFilter, stainlessSteel, "FlatteningFilterLV");
 
-new G4PVPlacement(0, G4ThreeVector(0, 0, discZ),   logicDisc,   "AlDisc",           logicWorld, false, 0, true);
-new G4PVPlacement(0, G4ThreeVector(0, 0, filterZ), logicFilter, "FlatteningFilter", logicWorld, false, 0, true);
-
+// Madre cambiada a logicHead
+new G4PVPlacement(0, G4ThreeVector(0, 0, discZ),   logicDisc,   "AlDisc",           logicHead, false, 0, true);
+new G4PVPlacement(0, G4ThreeVector(0, 0, filterZ), logicFilter, "FlatteningFilter", logicHead, false, 0, true);
 
 G4VisAttributes* discVis   = new G4VisAttributes(G4Colour::Blue());
 discVis->SetForceSolid(true);
@@ -192,7 +235,7 @@ filterVis->SetForceSolid(true);
 logicFilter->SetVisAttributes(filterVis);
 
 
-//*========= Colimador primario =========
+//*========= Colimador primario (Dentro de logicHead) =========
 G4double cone_height      = 11.2 * cm;
 G4double cone_base_radius = 5.0 * cm;
 G4double cone_top_radius  = 1.2 * cm;
@@ -220,20 +263,18 @@ G4LogicalVolume* collimator_logical = new G4LogicalVolume(
     collimator_hollowed, tungsten, "CollimatorLogical");
 
 G4double z_position_collimator = cone_height / 2;
+
+// Madre cambiada a logicHead
 new G4PVPlacement(nullptr,
     G4ThreeVector(0, 0, SSDValue - z_position_collimator),
-    collimator_logical, "PrimaryCollimator", logicWorld, false, 0, true);
-
-G4VisAttributes* visAttr = new G4VisAttributes(G4Colour::Grey());
-visAttr->SetForceSolid(true);
-collimator_logical->SetVisAttributes(visAttr);
-
+    collimator_logical, "PrimaryCollimator", logicHead, false, 0, true);
 
 G4VisAttributes* collimatorVis = new G4VisAttributes(G4Colour::Magenta());
 collimatorVis->SetForceSolid(true);
 collimator_logical->SetVisAttributes(collimatorVis);
 
-//*========= Revestimiento =========
+
+//*========= Revestimiento (Dentro de logicHead) =========
 G4Tubs* revestimiento = new G4Tubs("Revestimiento",
     63.26 * cm, 68.34 * cm,
     59.625 * cm / 2, 0, 360 * deg);
@@ -241,16 +282,16 @@ G4Tubs* revestimiento = new G4Tubs("Revestimiento",
 G4LogicalVolume* logicRevestimiento = new G4LogicalVolume(
     revestimiento, revestimientoMaterial, "LogicRevestimiento");
 
+// Madre cambiada a logicHead
 new G4PVPlacement(0, G4ThreeVector(0, 0, SSDValue - 20.6325 * cm),
-    logicRevestimiento, "Revestimiento", logicWorld, false, 0, checkOverlaps);
-
-
+    logicRevestimiento, "Revestimiento", logicHead, false, 0, checkOverlaps);
 
 G4VisAttributes* revestVis = new G4VisAttributes(G4Colour::Green());
 revestVis->SetForceSolid(true);
 logicRevestimiento->SetVisAttributes(revestVis);
 
-//*========= Cilindro hueco superior =========
+
+//*========= Cilindro hueco superior (Dentro de logicHead) =========
 G4double rInterno = 19 * cm;
 G4double rExterno = 68.34 * cm;
 G4double hCilindro = 2.0 * cm;
@@ -264,20 +305,20 @@ G4LogicalVolume* logicCilindroHueco = new G4LogicalVolume(
 
 G4double zPosCilindro = 20.6325 * cm + 59.625 * cm / 2 + hCilindro / 2;
 
+// Madre cambiada a logicHead
 new G4PVPlacement(0, G4ThreeVector(0, 0, SSDValue - zPosCilindro),
-    logicCilindroHueco, "CilindroHueco", logicWorld, false, 0, checkOverlaps);
-
+    logicCilindroHueco, "CilindroHueco", logicHead, false, 0, checkOverlaps);
 
 G4VisAttributes* cilindroVis = new G4VisAttributes(G4Colour::Yellow());
 cilindroVis->SetForceSolid(true);
 logicCilindroHueco->SetVisAttributes(cilindroVis);
 
- 
-//*========= PARAMETROS DEL CAMPO =========
-G4double fieldSize  = 10.0 * cm;      // <-- Cambiar campo (ej. 10, 20, etc.)
-G4double L          = fieldSize / 2.0; // Semi-campo en superficie
 
-//*========= MLC =========
+//*========= PARAMETROS DEL CAMPO =========
+G4double fieldSize  = 10.0 * cm;      
+G4double L          = fieldSize / 2.0; 
+
+//*========= MLC (Dentro de logicHead) =========
 G4double leafWidthY     = 5.0 * mm;
 G4double leafHeightZ    = 90.0 * mm;
 G4double leafZPosition  = SSDValue - 30.9 * cm;
@@ -303,110 +344,100 @@ auto rotX = new G4RotationMatrix();
 rotX->rotateX(90.0 * deg);
 rotX->rotateY(9 * mrad);
 
-// === Calculos automáticos ===
-G4double mlcHalfOpening = L * (SSDValue - leafZPosition) / SSDValue; // desplazamiento en X
+G4double mlcHalfOpening = L * (SSDValue - leafZPosition) / SSDValue; 
 G4double pitch = leafWidthY + interleafGap;
-G4double yHalfOpening = L * (SSDValue - leafZPosition) / SSDValue;   // límite en Y para hojas activas
+G4double yHalfOpening = L * (SSDValue - leafZPosition) / SSDValue;   
 
 std::vector<G4double> leafXPShift(numLeaves, 0.0);
 std::vector<G4double> leafXNShift(numLeaves, 0.0);
 int numActiveLeaves = 0;
-
-// Selección automática de hojas que se moverán (+2 hojas extra en cada extremo)
-// Selección automática de hojas que se moverán (+extraLeaves en cada extremo)
 int extraLeaves = 1; 
+
 for (int i = 0; i < numLeaves; ++i) {
     G4double yLeaf = -((numLeaves - 1) * pitch / 2.0) + i * pitch;
-
     if (std::abs(yLeaf) <= yHalfOpening + extraLeaves * pitch) {
         numActiveLeaves++;
-
-        // 👉 todas las hojas se abren igual (sin apertura parcial)
         G4double frac = 1.0;
-
         leafXPShift[i] = mlcHalfOpening * frac;
         leafXNShift[i] = -mlcHalfOpening * frac;
-    }
-    else {
+    } else {
         leafXPShift[i] = 0.0;
         leafXNShift[i] = 0.0;
     }
 }
 
-
-// Hojas +X
+// Colocación de Hojas (Madre cambiada a logicHead)
 for (int i = 0; i < numLeaves; ++i) {
     G4double y = -((numLeaves - 1) * pitch / 2.0) + i * pitch;
+    
     G4double x = blockX / 2 + leafXPShift[i];
     G4ThreeVector pos(x, y, leafZPosition);
-
-G4cout << "positivo " << y << " cm\n";
     new G4PVPlacement(rotX, pos, leafLogic, ("LeafXPPhys_" + std::to_string(i)).c_str(),
-        logicWorld, false, i, true); 
-
-     
+        logicHead, false, i, true); 
+      
     G4double xn = -blockX / 2 + leafXNShift[i];  
     G4ThreeVector posn(xn, y, leafZPosition);
-
-G4cout << "negativo " << y << " cm\n";
     new G4PVPlacement(rotX, posn, leafLogic, ("LeafXNPhys_" + std::to_string(i)).c_str(),
-        logicWorld, false, i + numLeaves, true);
-    
+        logicHead, false, i + numLeaves, true);
 }
 
 auto leafVis = new G4VisAttributes(G4Colour::Red());
 leafVis->SetForceSolid(true);
 leafLogic->SetVisAttributes(leafVis);
 
-//*========= Jaws =========
+
+//*========= Jaws (Dentro de logicHead) =========
 G4double jawLengthX   = 20.0 * cm;
 G4double jawWidthY    = 20.0 * cm;
 G4double jawHeightZ   = 7.80 * cm;
 G4double jawZPosition = SSDValue - 43.2 * cm;
 
-
 G4Material* jawMaterial = G4NistManager::Instance()->FindOrBuildMaterial("G4_W");
 
-// Calculo de desplazamiento y angulo usando geometria como tu script Python
 G4double a = jawHeightZ;
 G4double b = jawWidthY;
-G4double z0 = SSDValue-jawZPosition;
-G4double D1 = 0.5*std::sqrt(a*a + b*b);
+G4double z0 = SSDValue - jawZPosition;
+G4double D1 = 0.5 * std::sqrt(a*a + b*b);
 G4double SSD = SSDValue;
-G4double  M_PI = 3.14159265;
-G4double theta = M_PI/2 - std::atan(SSD/L);    // inclinación
+G4double M_PI = 3.14159265;
+G4double theta = M_PI/2 - std::atan(SSD/L);    
 G4double beta  = std::atan(SSD/L);
 G4double alpha = std::atan(a/b);
-
 G4double xj = z0*L/SSD + D1*std::cos(alpha+theta) + D1*std::sin(alpha+theta)/std::tan(beta);
 
-// Giro de las jaws
 G4RotationMatrix* jawRotationP = new G4RotationMatrix();
 G4RotationMatrix* jawRotationN = new G4RotationMatrix();
 jawRotationP->rotateX(-theta*rad);
 jawRotationN->rotateX(theta*rad);
 
-// Jaw +Y
+// Jaw +Y (Madre cambiada a logicHead)
 {
     G4ThreeVector pos(0, xj, jawZPosition);
     G4Box* solidJawYP = new G4Box("JawYP", jawLengthX/2, jawWidthY/2, jawHeightZ/2);
-    G4LogicalVolume* logicJawYP = new G4LogicalVolume(solidJawYP,jawMaterial,"LogicJawYP");
-    new G4PVPlacement(jawRotationP,pos,logicJawYP,"PhysJawYP",logicWorld,false,0,true);
-    G4VisAttributes* jawYPVis = new G4VisAttributes(G4Colour(1.0,0.5,0.0));
+    G4LogicalVolume* logicJawYP = new G4LogicalVolume(solidJawYP, jawMaterial, "LogicJawYP");
+    new G4PVPlacement(jawRotationP, pos, logicJawYP, "PhysJawYP", logicHead, false, 0, true);
+    
+    G4VisAttributes* jawYPVis = new G4VisAttributes(G4Colour(1.0, 0.5, 0.0));
     jawYPVis->SetForceSolid(true);
     logicJawYP->SetVisAttributes(jawYPVis);
 }
 
-// Jaw -Y
+// Jaw -Y (Madre cambiada a logicHead)
 {
     G4ThreeVector pos(0, -xj, jawZPosition);
     G4Box* solidJawYN = new G4Box("JawYN", jawLengthX/2, jawWidthY/2, jawHeightZ/2);
-    G4LogicalVolume* logicJawYN = new G4LogicalVolume(solidJawYN,jawMaterial,"LogicJawYN");
-    new G4PVPlacement(jawRotationN,pos,logicJawYN,"PhysJawYN",logicWorld,false,1,true);
-    G4VisAttributes* jawYNVis = new G4VisAttributes(G4Colour(1.0,0.5,0.0));
+    G4LogicalVolume* logicJawYN = new G4LogicalVolume(solidJawYN, jawMaterial, "LogicJawYN");
+    new G4PVPlacement(jawRotationN, pos, logicJawYN, "PhysJawYN", logicHead, false, 1, true);
+    
+    G4VisAttributes* jawYNVis = new G4VisAttributes(G4Colour(1.0, 0.5, 0.0));
     jawYNVis->SetForceSolid(true);
     logicJawYN->SetVisAttributes(jawYNVis);
 }
+
+
+
+
+
 
 //*========= VERIFICACION =========
 G4cout << "Field Size: " << fieldSize/cm << " cm\n";
@@ -421,8 +452,6 @@ for(int i=0;i<numLeaves;i++){
     }
 }
 
-//?//?//?//?//?//?//?//?//?//?//?//?//?//?
-//?WORLD
  
 //? Dimensiones y material del fantoma
     G4double PhantomX = 30*cm;
@@ -473,7 +502,7 @@ G4VPhysicalVolume* physPhantom = new G4PVPlacement(0, G4ThreeVector(0, 0, -Phant
 
 
 //& Número de detectores en cada fila y columna d
-G4int numDetectors =  61; // 23;  
+G4int numDetectors = 3;// 61; // 23;  
 
 G4int outerNumDetectors =0  ; //31;
 //& Separación

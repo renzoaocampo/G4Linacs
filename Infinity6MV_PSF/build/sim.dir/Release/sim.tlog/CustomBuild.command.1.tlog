@@ -1,6 +1,6 @@
-^C:\USERS\RENZO\ONEDRIVE\DOCUMENTS\GITHUB\G4LINACS\INFINITY6MV\CMAKELISTS.TXT
+^C:\USERS\RENZO\ONEDRIVE\DOCUMENTS\GITHUB\G4LINACS\INFINITY6MV_PSF\CMAKELISTS.TXT
 setlocal
-"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Infinity6MV -BC:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Infinity6MV/build --check-stamp-file C:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Infinity6MV/build/CMakeFiles/generate.stamp
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Infinity6MV_PSF -BC:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Infinity6MV_PSF/build --check-stamp-file C:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Infinity6MV_PSF/build/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
