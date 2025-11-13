@@ -439,7 +439,13 @@ G4VSolid* solidPhantomWithHoles = solidPhantom; // Inicialmente, es el bloque co
 G4LogicalVolume* logicPhantom = new G4LogicalVolume(solidPhantom, phantomMaterial, "logicalPhantom");
 
 // Colocar el fantoma en el mundo
-G4VPhysicalVolume* physPhantom = new G4PVPlacement(0, G4ThreeVector(0, 0, -PhantomZ/2), logicPhantom, "physPhantom", logicWorld, false, 0, true);
+G4VPhysicalVolume* physPhantom = new G4PVPlacement(0, G4ThreeVector(0, 0, -PhantomZ/2),  
+                                                    logicPhantom , 
+                                                    "physPhantom", 
+                                                    logicWorld, 
+                                                    false, 
+                                                    0, 
+                                                    true);
     
 
 
@@ -467,15 +473,15 @@ G4VPhysicalVolume* physPhantom = new G4PVPlacement(0, G4ThreeVector(0, 0, -Phant
 
 
 //& Número de detectores en cada fila y columna d
-G4int numDetectors =  23; // 23;  
+G4int numDetectors =  61; // 23;  
 
 G4int outerNumDetectors =0  ; //31;
 //& Separación
-G4double separation = 0.8*cm;
+G4double separation = 0.5*cm;
 G4double outerSeparation = 1.4 * cm; 
 //& Capas
-G4int numLayers = 5; //7
-G4double layerSeparation =  2.*cm;
+G4int numLayers = 20; //7
+G4double layerSeparation =  0.5*cm;
 //& PROFUNDIDAD PRIMERA CAPA
 G4double profundidadGrupo= 1.5*cm;
 
@@ -496,9 +502,9 @@ G4double coberturaX = 0.450 * cm;
 G4double coberturaY = 0.400 * cm;
 G4double coberturaZ = 0.120 * cm;
  
- G4double SDiodeX = 0.265*cm;
- G4double SDiodeY = 0.265*cm;
- G4double SDiodeZ = 0.06*cm;
+ G4double SDiodeX = 0.5*cm;
+ G4double SDiodeY = 0.5*cm;
+ G4double SDiodeZ = 0.5*cm;
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^v
 //^^cobertura    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^v
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^v
@@ -512,72 +518,7 @@ G4Box* solidSDiodeh = new G4Box("SDiode", SDiodeX/2, SDiodeY/2, SDiodeZ/2);
 
 // Posición del hueco dentro de la cobertura (ajusta según sea necesario)
 G4ThreeVector posicionHueco(0, 0, 0);
-
-// Crear el sólido final restando el hueco de la cobertura
-G4SubtractionSolid* solidCoberturaDiodeConHueco = new G4SubtractionSolid("CoberturaDiodeConHueco", solidCoberturaDiode, solidSDiodeh, 0, posicionHueco);
-
-// Crear el volumen lógico con el material epoxi
-G4LogicalVolume* logicCoberturaDiodeConHueco = new G4LogicalVolume(solidCoberturaDiodeConHueco, epoxy, "CoberturaDiodeConHueco");
-
-
-for(G4int layer = 0; layer < numLayers; layer++) {
-    for(G4int i = 0; i < numDetectors; i++) {
-        for(G4int j = 0; j < numDetectors; j++) {
-            G4double xPos = -0.5*(numDetectors-1)*separation + i*separation;
-            G4double yPos = -0.5*(numDetectors-1)*separation + j*separation;
-            G4double zPos = +PhantomZ/2-profundidadGrupo -layer * (layerSeparation) -PhantomZ/2 ;
-            
-            G4VPhysicalVolume *physCoberturaDiodeConHueco = new G4PVPlacement(
-                0,
-                G4ThreeVector(xPos, yPos, zPos),
-                logicCoberturaDiodeConHueco,
-                "logicCoberturaDiodeConHueco",
-                logicWorld,
-                false,
-                ndeth
-                
-            );
-            ndeth++;
-        }
-}
-}
-  
  
-
-//*-EXTERNOS-
-  
-// Crear detectores externos
-for(G4int layer = 0; layer < numLayers; layer++) {
-    for(G4int i = 0; i < outerNumDetectors; i++) {
-        for(G4int j = 0; j < outerNumDetectors; j++) {
-            // Calcular la posición del detector externo
-            G4double xPos = -0.5*(outerNumDetectors-1)* outerSeparation+ i* outerSeparation;
-            G4double yPos = -0.5*(outerNumDetectors-1)* outerSeparation + j* outerSeparation;
-
-            // Asegurarse de no superponer los detectores centrales
-            G4double centralHalfWidth = 0.5 * (numDetectors-1) * separation+outerSeparation  ;
-            if (std::abs(xPos) >= centralHalfWidth || std::abs(yPos) >= centralHalfWidth) {
-                G4double zPos = +PhantomZ/2-profundidadGrupo - layer * layerSeparation-PhantomZ/2;
-
-            G4VPhysicalVolume *physCoberturaDiodeConHueco = new G4PVPlacement(
-                0,
-                G4ThreeVector(xPos, yPos, zPos),
-                logicCoberturaDiodeConHueco,
-                "logicCoberturaDiodeConHueco",
-                logicWorld,
-                false,
-                ndeth
-                
-            );
-            ndeth++;
-            }
-
-            
-        }
-    }
-} 
-
-
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^v
 //^^SENSITIVO    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^v
@@ -596,7 +537,7 @@ for(G4int layer = 0; layer < numLayers; layer++) {
         for(G4int j = 0; j < numDetectors; j++) {
             G4double xPos = -0.5*(numDetectors-1)*separation + i*separation;
             G4double yPos = -0.5*(numDetectors-1)*separation + j*separation;
-            G4double zPos = +PhantomZ/2-profundidadGrupo -layer * (layerSeparation)-PhantomZ/2  ;
+            G4double zPos = +PhantomZ/2-profundidadGrupo -layer * (layerSeparation)   ;
             
             G4VPhysicalVolume *physDetector = new G4PVPlacement(
                 0,
