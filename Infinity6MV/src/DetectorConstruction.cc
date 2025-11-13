@@ -428,7 +428,7 @@ for(int i=0;i<numLeaves;i++){
     G4double PhantomX = 30*cm;
     G4double PhantomY = 30*cm;
     G4double PhantomZ =30*cm;
-    G4Material* phantomMaterial =nist->FindOrBuildMaterial("G4_PLEXIGLASS");
+    G4Material* phantomMaterial =nist->FindOrBuildMaterial("G4_WATER");
  
  
 // Crear el volumen del fantoma principal de PMMA
@@ -436,10 +436,10 @@ G4Box* solidPhantom = new G4Box("solidPhantom", PhantomX/2, PhantomY/2, PhantomZ
 G4VSolid* solidPhantomWithHoles = solidPhantom; // Inicialmente, es el bloque completo
 
   
-G4LogicalVolume* logiPhantom = new G4LogicalVolume(solidPhantom, phantomMaterial, "logicalPhantom");
+G4LogicalVolume* logicPhantom = new G4LogicalVolume(solidPhantom, phantomMaterial, "logicalPhantom");
 
 // Colocar el fantoma en el mundo
-G4VPhysicalVolume* physPhantom = new G4PVPlacement(0, G4ThreeVector(0, 0, -PhantomZ/2), logiPhantom, "physPhantom", logicWorld, false, 0, true);
+G4VPhysicalVolume* physPhantom = new G4PVPlacement(0, G4ThreeVector(0, 0, -PhantomZ/2), logicPhantom, "physPhantom", logicWorld, false, 0, true);
     
 
 
@@ -603,7 +603,7 @@ for(G4int layer = 0; layer < numLayers; layer++) {
                 G4ThreeVector(xPos, yPos, zPos),
                 logicmosfet,
                 "physDetector",
-                logicWorld,
+                logicPhantom,
                 false,
                 ndet
                 
@@ -614,41 +614,7 @@ for(G4int layer = 0; layer < numLayers; layer++) {
 }
   
  
-
-//*-EXTERNOS-
-  
-// Crear detectores externos
-for(G4int layer = 0; layer < numLayers; layer++) {
-    for(G4int i = 0; i < outerNumDetectors; i++) {
-        for(G4int j = 0; j < outerNumDetectors; j++) {
-            // Calcular la posición del detector externo
-            G4double xPos = -0.5*(outerNumDetectors-1)* outerSeparation+ i* outerSeparation;
-            G4double yPos = -0.5*(outerNumDetectors-1)* outerSeparation + j* outerSeparation;
-
-            // Asegurarse de no superponer los detectores centrales
-            G4double centralHalfWidth = 0.5 * (numDetectors-1) * separation+outerSeparation  ;
-            if (std::abs(xPos) >= centralHalfWidth || std::abs(yPos) >= centralHalfWidth) {
-                G4double zPos = +PhantomZ/2-profundidadGrupo - layer * layerSeparation-PhantomZ/2;
-
-            G4VPhysicalVolume *physDetector = new G4PVPlacement(
-                0,
-                G4ThreeVector(xPos, yPos, zPos),
-                logicmosfet,
-                "physDetector",
-                 logicWorld,
-                false,
-                ndet
-                
-            );
-            ndet++;
-            }
-
-            
-        }
-    }
-} 
-
-
+ 
 
  
 
