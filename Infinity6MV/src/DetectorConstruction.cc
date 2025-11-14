@@ -134,7 +134,7 @@ logicWorld->SetVisAttributes(worldVis);
 
 //*========= Target =========
 G4double target_radius    = 1.0 * cm;   // Radio del disco
-G4double target_thickness =0.13*cm; //1.1 * cm (no sirvio, la pdd bajo demasiado) //0.09cm va bien, podria mejoraren FFF todo se malogra ;  // Grosor en dirección del haz
+G4double target_thickness =0.09*cm; //1.1 * cm (no sirvio, la pdd bajo demasiado) //0.09cm va bien, podria mejoraren FFF todo se malogra ;  // Grosor en dirección del haz
 G4double SSDValue         =100 * cm;
 
 G4Tubs* solidTarget = new G4Tubs("Target",
@@ -147,7 +147,7 @@ G4LogicalVolume* logicTarget = new G4LogicalVolume(solidTarget, wre_alloy, "Targ
 G4Region* TargetRegion = new G4Region("TargetRegion");
 TargetRegion->AddRootLogicalVolume(logicTarget);
 
-G4ThreeVector posTarget(0, 0, SSDValue - 11 * mm);
+G4ThreeVector posTarget(0, 0, SSDValue - 1.1*cm);
 new G4PVPlacement(nullptr, posTarget, logicTarget, "Target", logicWorld, false, 0, true);
 
 G4VisAttributes* targetVis = new G4VisAttributes(G4Colour::Gray());
@@ -473,7 +473,7 @@ G4VPhysicalVolume* physPhantom = new G4PVPlacement(0, G4ThreeVector(0, 0, -Phant
 
 
 //& Número de detectores en cada fila y columna d
-G4int numDetectors =  3; // 23;  
+G4int numDetectors =  61; // 23;  
 
 G4int outerNumDetectors =0  ; //31;
 //& Separación
@@ -529,7 +529,7 @@ G4ThreeVector posicionHueco(0, 0, 0);
   solidDetector = new G4Box("solidDetector", SDiodeX/2, SDiodeY/2, SDiodeZ/2);
 
 // Crear el volumen lógico del detector
-  logicmosfet = new G4LogicalVolume(solidDetector,Sii, "logicDetector");
+  logicmosfet = new G4LogicalVolume(solidDetector,phantomMaterial, "logicDetector");
     G4int ndet =1;
 // Colocar los detectores en la cuadrícula y capas
 for(G4int layer = 0; layer < numLayers; layer++) {

@@ -174,7 +174,7 @@ logicTarget->SetVisAttributes(targetVis);
 G4double discRadius    = 4.0 * cm;
 G4double discThickness = 0.5 * cm;
 G4double filterHeight  = 2.77 * cm;
-G4double filterZ = (SSDValue - 15.9 * cm);
+G4double filterZ = (SSDValue - 15.4 * cm);
 G4double discZ   = filterZ - (discThickness / 2 + filterHeight / 2);
 
 G4Tubs* solidDisc = new G4Tubs("AlDisc", 0, discRadius, discThickness / 2, 0, 360 * deg);
@@ -439,7 +439,7 @@ G4ThreeVector posicionHueco(0, 0, 0);
   solidDetector = new G4Box("solidDetector", SDiodeX/2, SDiodeY/2, SDiodeZ/2);
 
 // Crear el volumen lógico del detector
-  logicmosfet = new G4LogicalVolume(solidDetector,Sii, "logicDetector");
+  logicmosfet = new G4LogicalVolume(solidDetector,phantomMaterial, "logicDetector");
     G4int ndet =1;
 // Colocar los detectores en la cuadrícula y capas
 for(G4int layer = 0; layer < numLayers; layer++) {
