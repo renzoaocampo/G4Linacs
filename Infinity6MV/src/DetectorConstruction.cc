@@ -134,7 +134,7 @@ logicWorld->SetVisAttributes(worldVis);
 
 //*========= Target =========
 G4double target_radius    = 1.0 * cm;   // Radio del disco
-G4double target_thickness = 1.1 * cm;  // Grosor en dirección del haz
+G4double target_thickness =0.13*cm; //1.1 * cm (no sirvio, la pdd bajo demasiado) //0.09cm va bien, podria mejoraren FFF todo se malogra ;  // Grosor en dirección del haz
 G4double SSDValue         =100 * cm;
 
 G4Tubs* solidTarget = new G4Tubs("Target",
@@ -473,7 +473,7 @@ G4VPhysicalVolume* physPhantom = new G4PVPlacement(0, G4ThreeVector(0, 0, -Phant
 
 
 //& Número de detectores en cada fila y columna d
-G4int numDetectors =  61; // 23;  
+G4int numDetectors =  3; // 23;  
 
 G4int outerNumDetectors =0  ; //31;
 //& Separación
