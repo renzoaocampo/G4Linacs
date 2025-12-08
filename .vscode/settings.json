@@ -1,5 +1,6 @@
 {
     "files.associations": {
         "iosfwd": "cpp"
-    }
+    },
+    "cmake.sourceDirectory": "C:/Users/renzo/OneDrive/Documents/GitHub/G4Linacs/Halcyon6MV"
 }
