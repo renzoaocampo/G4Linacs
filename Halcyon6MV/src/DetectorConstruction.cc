@@ -57,21 +57,10 @@ G4Material* revestimientoMaterial = nist->FindOrBuildMaterial("G4_W");
         0, G4ThreeVector(), 
         logicWorld, "World", 0, false, 0, true);
 
-G4LogicalVolume* motherVolume = logicWorld;
-
+G4LogicalVolume* motherVolume = logicWorld; 
 G4LogicalVolume* motherLogical = logicWorld;
 
-
-
-
-
-
-
-
-
-
-
-
+ 
 
     // ==========================================================
     // MATERIALES
@@ -100,7 +89,7 @@ G4LogicalVolume* motherLogical = logicWorld;
         new G4LogicalVolume(solidCama, matCarbon, "Cama");
 
     new G4PVPlacement(
-        0, G4ThreeVector(0,20*cm,132.5*cm),
+        0, G4ThreeVector(0,20*cm,132.5*cm+22*cm),
         logicCama,"Cama",logicWorld,false,0,true);
 
     G4Box* solidBase =
@@ -109,7 +98,7 @@ G4LogicalVolume* motherLogical = logicWorld;
         new G4LogicalVolume(solidBase, matFe, "BaseMesa");
 
     new G4PVPlacement(
-        0, G4ThreeVector(0,135*cm,178.25*cm),
+        0, G4ThreeVector(0,135*cm,178.25*cm+22*cm),
         logicBase,"BaseMesa",logicWorld,false,0,true);
 
 
@@ -133,15 +122,7 @@ G4LogicalVolume* motherLogical = logicWorld;
         logicPrimColl,"PrimColl",logicWorld,false,0,true);
 
 
-    // ==========================================================
-    // PLACA Pb/Sb — MCNP RCC superficie 92
-    // ==========================================================
-    /*
-        c Placa Pb/Sb
-        903 53 -11.34 92
-        92 RCC 0 0 104.648   0 0 1.0   30.15
-          → cilindro: altura = 1 mm, radio = 30.15 mm
-    */
+ 
 
     G4double pb_radius = 30.15*mm;
     G4double pb_height = 1.0*mm;
@@ -201,46 +182,7 @@ G4LogicalVolume* motherLogical = logicWorld;
             logic14,"TARGET_14",logicWorld,false,0,true);
     }
 
-
-    // --- Superficie 15 ---
-    /*
-        15 RCC 0 0 -0.254   0 0 1.524   0.889
-    */
-    {
-        G4double r = 0.889*cm;
-        G4double h = 1.524*cm;
-
-        G4Tubs* solid15 =
-            new G4Tubs("TARGET_15",0,r,h/2,0,360*deg);
-
-        G4LogicalVolume* logic15 =
-            new G4LogicalVolume(solid15, matCu, "TARGET_15");
-
-        new G4PVPlacement(
-            0, G4ThreeVector(0,0,-0.254*cm + h/2),
-            logic15,"TARGET_15",logicWorld,false,0,true);
-    }
-
-
-    // --- Superficie 16 ---
-    /*
-        16 RCC 0 0 -0.254   0 0 1.524   0.301
-    */
-    {
-        G4double r = 0.301*cm;
-        G4double h = 1.524*cm;
-
-        G4Tubs* solid16 =
-            new G4Tubs("TARGET_16",0,r,h/2,0,360*deg);
-
-        G4LogicalVolume* logic16 =
-            new G4LogicalVolume(solid16, matCu, "TARGET_16");
-
-        new G4PVPlacement(
-            0, G4ThreeVector(0,0,-0.254*cm + h/2),
-            logic16,"TARGET_16",logicWorld,false,0,true);
-    }
-
+ 
 
     // ==========================================================
     // VISUALIZACIÓN
@@ -375,7 +317,7 @@ G4LogicalVolume* logicPhantom = new G4LogicalVolume(solidPhantom, phantomMateria
 // Rotación y desplazamiento: rotar 180 grados en X y desplazar en Z (100 mm + media altura del fantoma)
 G4RotationMatrix* rotPhantom = new G4RotationMatrix();
 rotPhantom->rotateX(180.0*deg);
-G4double zShift = 100.0*cm + PhantomZ/2.0;
+G4double zShift = 90.0*cm + PhantomZ/2.0;
 
 // Colocar el fantoma en el mundo con rotación y desplazamiento en Z
 G4VPhysicalVolume* physPhantom = new G4PVPlacement(rotPhantom,
@@ -391,7 +333,7 @@ G4VPhysicalVolume* physPhantom = new G4PVPlacement(rotPhantom,
 
 
 //& Número de detectores en cada fila y columna d
-G4int numDetectors =  61; // 23;  
+G4int numDetectors = 41; //61; // 23;  
   
 G4double separation = 0.5*cm;  
 G4int numLayers = 5; //7
@@ -414,7 +356,7 @@ G4double profundidadGrupo= 0.3*cm;
   solidDetector = new G4Box("solidDetector", SDiodeX/2, SDiodeY/2, SDiodeZ/2);
 
 // Crear el volumen lógico del detector
-  logicmosfet = new G4LogicalVolume(solidDetector,phantomMaterial, "logicDetector");
+  logicVoxel = new G4LogicalVolume(solidDetector,phantomMaterial, "logicDetector");
     G4int ndet =1;
 // Colocar los detectores en la cuadrícula y capas
 for(G4int layer = 0; layer < numLayers; layer++) {
@@ -427,7 +369,7 @@ for(G4int layer = 0; layer < numLayers; layer++) {
             G4VPhysicalVolume *physDetector = new G4PVPlacement(
                 0,
                 G4ThreeVector(xPos, yPos, zPos),
-                logicmosfet,
+                logicVoxel,
                 "physDetector",
                 logicPhantom,
                 false,
@@ -471,7 +413,7 @@ for(G4int layer = 0; layer < numLayers; layer++) {
             G4VPhysicalVolume *physDetector = new G4PVPlacement(
                 0,
                 G4ThreeVector(xPos, yPos, zPos),
-                logicmosfet,
+                logicVoxel,
                 "physDetector",
                 logicPhantom,
                 false,
