@@ -153,44 +153,7 @@ new G4PVPlacement(nullptr, posTarget, logicTarget, "Target", logicWorld, false, 
 G4VisAttributes* targetVis = new G4VisAttributes(G4Colour::Gray());
 targetVis->SetVisibility(true);
 logicTarget->SetVisAttributes(targetVis); 
-
-// //*========= Disco y filtro (invertidos en -Z) =========
-G4double discRadius    = 4.0 * cm;
-G4double discThickness = 0.5 * cm;
-
-G4double filterHeight = 2.77 * cm;
-G4double filterRmin1  = 0.0 * cm;
-G4double filterRmax1  = 4.0 * cm;   // ahora va abajo
-G4double filterRmin2  = 0.0 * cm;
-G4double filterRmax2  = 0.0 * cm;   // ahora va arriba
-
-// Posiciones invertidas en Z
-G4double filterZ = (SSDValue - 15.9 * cm);
-G4double discZ   = filterZ - (discThickness / 2 + filterHeight / 2);
-
-G4Tubs* solidDisc = new G4Tubs("AlDisc", 0, discRadius, discThickness / 2, 0, 360 * deg);
-
-G4Cons* solidFilter = new G4Cons("FlatteningFilter",
-    filterRmin1, filterRmax1,   // base en -Z
-    filterRmin2, filterRmax2,   // punta en +Z
-    filterHeight / 2,
-    0, 360 * deg);
-
-G4LogicalVolume* logicDisc   = new G4LogicalVolume(solidDisc, aluminum, "AlDiscLV");
-G4LogicalVolume* logicFilter = new G4LogicalVolume(solidFilter, stainlessSteel, "FlatteningFilterLV");
-
-new G4PVPlacement(0, G4ThreeVector(0, 0, discZ),   logicDisc,   "AlDisc",           logicWorld, false, 0, true);
-new G4PVPlacement(0, G4ThreeVector(0, 0, filterZ), logicFilter, "FlatteningFilter", logicWorld, false, 0, true);
-
-
-G4VisAttributes* discVis   = new G4VisAttributes(G4Colour::Blue());
-discVis->SetForceSolid(true);
-logicDisc->SetVisAttributes(discVis);
-
-G4VisAttributes* filterVis = new G4VisAttributes(G4Colour::Cyan());
-filterVis->SetForceSolid(true);
-logicFilter->SetVisAttributes(filterVis);
-
+ 
 
 //*========= Colimador primario =========
 G4double cone_height      = 11.2 * cm;
