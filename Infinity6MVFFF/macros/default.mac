@@ -31,7 +31,7 @@
 /process/em/setDirectionalSplitting true 
 /process/em/setDirectionalSplittingTarget 0 0 0 cm 
 /process/em/setDirectionalSplittingRadius 29.7 cm 
-/process/em/setSecBiasing eBrem TargetRegion 70 7 MeV 
+/process/em/setSecBiasing eBrem TargetRegion 10 7 MeV 
 
 # ---------------------------
 # Número de partículas a generar

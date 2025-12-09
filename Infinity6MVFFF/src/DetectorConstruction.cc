@@ -141,7 +141,7 @@ logicWorld->SetVisAttributes(worldVis);
 
 
 //*========= Target =========
-G4double target_radius    = 1.0 * cm;   // Radio del disco
+G4double target_radius    = 10.0 * mm;   // Radio del disco
 G4double target_thickness =0.09*cm; //1.1 * cm (no sirvio, la pdd bajo demasiado) //0.09cm va bien, podria mejoraren FFF todo se malogra ;  // Grosor en dirección del haz
 G4double SSDValue         =100 * cm;
 
@@ -164,7 +164,7 @@ logicTarget->SetVisAttributes(targetVis);
  
 
  {
-        G4double r = 0.301*cm;
+        G4double r = target_radius;
         G4double h = 1.016*cm;
 
         G4Tubs* solid14 =
