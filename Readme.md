@@ -1,79 +1,93 @@
 # G4Linacs
 
-Simulaciones de aceleradores lineales (Linacs) y cabezales clínicos en Geant4.
+Simulations of linear accelerators (Linacs) and clinical heads in Geant4.
 
-## Descripción
+## Description
 
-G4Linacs es una colección de escenarios y configuraciones para simular fuentes de radiación y cabezales de aceleradores lineales médicos usando Geant4. El objetivo del proyecto es proporcionar modelos reutilizables (ej. `Halcyon6MV`, `Infinity6MV`, `Infinity6MV_PSF`) que permitan estudiar la distribución de dosis, perfilar la respuesta de detectores y generar funciones de dispersión puntual (PSF) y otros parámetros relevantes para física médica.
+G4Linacs is a collection of scenarios and configurations for simulating radiation sources and medical linear-accelerator heads using Geant4. The goal is to provide reusable models (e.g., `Halcyon6MV`, `Infinity6MV`, `Infinity6MV_PSF`) that allow dose-distribution studies, detector-response profiling, and the generation of phase-space files (PSF) and other parameters relevant to medical physics.
 
-Cada subcarpeta contiene una variante del modelo (código fuente, archivos de construcción CMake, macros y datos de salida) pensada para diferentes linacs o configuraciones de simulación.
+Each subfolder contains a variant of the model (source code, CMake build files, macros, and output data) designed for different linacs or simulation configurations.
 
-## Estructura del repositorio
+## Repository Structure
 
-- `Halcyon6MV/` — Implementación del modelo Halcyon a 6 MV
-- `Infinity6MV/` — Implementación del modelo Infinity a 6 MV
-- `Infinity6MV_PSF/` — Variante para cálculo de PSF
-- Cada carpeta contiene:
-  - `CMakeLists.txt` — archivo de construcción
-  - `src/` — código fuente C++ (DetectorConstruction, PrimaryGenerator, PhysicsList, etc.)
-  - `include/` — cabeceras
-  - `macros/` — macros de ejemplo para correr simulaciones
-  - `build/` — archivos de proyecto y salidas de compilación (no versionar si se usa .gitignore)
-  - `data.ipynb`, `merged_output.csv` — notebooks y datos de ejemplo
+* `Halcyon6MV/` — Halcyon 6 MV model
+* `Infinity6MV/` — Infinity 6 MV model
+* `Infinity6MV_PSF/` — Variant for PSF generation
+* Each folder contains:
 
-## Requisitos
+  * `CMakeLists.txt` — build file
+  * `src/` — C++ source (DetectorConstruction, PrimaryGenerator, PhysicsList, etc.)
+  * `include/` — headers
+  * `macros/` — example macros to run simulations
+  * `build/` — project and compilation outputs (should not be versioned if using `.gitignore`)
+  * `data.ipynb`, `merged_output.csv` — example notebooks and data
 
-- Geant4 (versión compatible; recomendado 10.x o superior)
-- CMake
-- Compilador C++ moderno (MSVC, GCC o Clang)
-- Python (opcional, para notebooks y análisis)
+## Requirements
 
-## Cómo compilar
+* Geant4 (compatible version; 10.x or newer recommended)
+* CMake
+* Modern C++ compiler (MSVC, GCC, or Clang)
+* Python (optional, for notebooks and analysis)
 
-Ejemplo rápido (desde Windows PowerShell):
+## Build (Windows)
+
+Open the **Developer Command Prompt for Visual Studio**, create a build directory inside the project folder, and run:
 
 ```powershell
+cd Halcyon6MV    # or the desired subproject
 mkdir build; cd build
-cmake .. -G "Visual Studio 16 2019" -A x64
+cmake ..
 cmake --build . --config Release
 ```
 
-Ajústate al generador y la configuración de Visual Studio que tengas instalada. En Linux/macOS usa el generador y compilador correspondiente.
+To select a specific generator or Visual Studio version, use
+`cmake .. -G "Visual Studio 16 2019" -A x64` instead of plain `cmake ..`.
 
-## Cómo ejecutar
+On Linux or macOS, use the system generator and a standard terminal (e.g., `cmake .. && make`).
 
-Una vez compilado, puedes ejecutar el binario principal (por ejemplo `sim.exe` o `sim`) y pasarle una macro de Geant4:
+## Run
 
-```powershell
-.\sim.exe macros\default.mac
+After building, run the simulation executable with:
+
+```
+sim --t <num_threads> --s <seed> [macro_filename]
 ```
 
-También se incluyen notebooks (`data.ipynb`) para análisis de resultados.
+* `--t <num_threads>`: number of threads. If omitted, all CPU cores are used.
+* `--s <seed>`: random seed. If omitted, a random seed is selected.
+* `[macro_filename]`: path to a Geant4 macro file (e.g., `macros/default.mac`). If omitted, the default macro is used.
 
-## Buenas prácticas
+Examples:
 
-- No versionar la carpeta `build/` (añade una entrada en `.gitignore`).
-- Mantener separados el código del detector (`DetectorConstruction`) y la lista de física (`PhysicsList`) para facilitar pruebas.
-- Anotar unidades explícitamente (`cm`, `mm`, `m`, etc.) al definir dimensiones.
+```powershell
+.\sim.exe --t 8 --s 12345 macros\default.mac
+.\sim.exe                 # runs with default macro, random seed, all threads
+```
 
-## Contribuciones
+Notebooks (`data.ipynb`) are provided for post-processing and output analysis.
 
-Si deseas contribuir:
+## Best Practices
 
-- Abre un issue describiendo la mejora o bug.
-- Crea una rama para tu trabajo.
-- Envía un pull request con pruebas o ejemplos de uso.
+* Do not version the `build/` folder (add an entry in `.gitignore`).
+* Keep detector code (`DetectorConstruction`) and physics list (`PhysicsList`) separated to simplify testing.
+* Specify units explicitly (`cm`, `mm`, `m`, etc.) when defining dimensions.
 
-## Licencia
+## Contributions
 
-Añade aquí la licencia de tu preferencia (MIT, Apache-2.0, etc.) o déjalo bajo la política del grupo/institución.
+To contribute:
+
+* Open an issue describing the improvement or bug.
+* Create a branch for your work.
+* Submit a pull request with tests or usage examples.
+
+## License
+
+Add your preferred license here (MIT, Apache-2.0, etc.) or leave it under your group/institution policy.
 
 ---
 
-Si quieres, puedo:
+If you want, I can:
 
-- Añadir un `.gitignore` recomendado para proyectos Geant4/CMake en Windows.
-- Generar un `CONTRIBUTING.md` básico.
-- Formatear los `README.md` en cada subcarpeta con instrucciones específicas.
-
-Dime qué prefieres y lo hago.
+* Add a recommended `.gitignore` for Geant4/CMake projects on Windows.
+* Generate a basic `CONTRIBUTING.md`.
+* Format the `README.md` files inside each subfolder with model-specific instructions.
