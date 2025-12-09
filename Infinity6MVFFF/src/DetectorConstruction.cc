@@ -43,6 +43,7 @@ G4Material* revestimientoMaterial = nist->FindOrBuildMaterial("G4_W");
 G4Material* worldMat         = nist->FindOrBuildMaterial("G4_AIR");
 G4Material* stainlessSteel   = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
 
+    G4Material* matCu     = nist->FindOrBuildMaterial("G4_Cu");
 // ---------- Elementos básicos ----------
 G4Element* H   = nist->FindOrBuildElement("H");   // Hidrógeno
 G4Element* C   = nist->FindOrBuildElement("C");   // Carbono
@@ -104,6 +105,13 @@ matTungstenMLC->AddElement(nist->FindOrBuildElement("W"),  95.0 * perCent);
 matTungstenMLC->AddElement(nist->FindOrBuildElement("Ni"), 3.75 * perCent);
 matTungstenMLC->AddElement(nist->FindOrBuildElement("Fe"), 1.25 * perCent);
 
+   G4double fractionmass;
+    G4Element* elPb = nist->FindOrBuildElement("Pb");
+    G4Element* elSb = nist->FindOrBuildElement("Sb");
+    G4Material* matPbSb = new G4Material("PbSb_Alloy", 11.0*g/cm3, 2);
+    matPbSb->AddElement(elPb, fractionmass=0.96);
+    matPbSb->AddElement(elSb, fractionmass=0.04);
+
 // ---------- Control ----------
 G4bool checkOverlaps = true;
 
@@ -154,6 +162,41 @@ G4VisAttributes* targetVis = new G4VisAttributes(G4Colour::Gray());
 targetVis->SetVisibility(true);
 logicTarget->SetVisAttributes(targetVis); 
  
+
+ {
+        G4double r = 0.301*cm;
+        G4double h = 1.016*cm;
+
+        G4Tubs* solid14 =
+            new G4Tubs("TARGET_14",0,r,h/2,0,360*deg);
+
+        G4LogicalVolume* logic14 =
+            new G4LogicalVolume(solid14, matCu, "TARGET_14");
+
+        new G4PVPlacement(
+            0, G4ThreeVector(0,0, SSDValue - 1.1*cm - target_thickness/2  - h/2),
+            logic14,"TARGET_14",logicWorld,false,0,true);
+
+    
+    
+
+    G4double pb_radius = 30.15*mm;
+    G4double pb_height = 1.0*mm;
+
+    G4Tubs* solidPlatePbSb =
+        new G4Tubs("PlatePbSb",0,pb_radius,pb_height/2,0,360*deg);
+
+    G4LogicalVolume* logicPlatePbSb =
+        new G4LogicalVolume(solidPlatePbSb, matPbSb,"PlatePbSb");
+
+    new G4PVPlacement(
+        0,
+        G4ThreeVector(0,0,SSDValue-104.648*mm),
+        logicPlatePbSb,"PlatePbSb",
+        logicWorld,false,0,true);
+
+
+    }
 
 //*========= Colimador primario =========
 G4double cone_height      = 11.2 * cm;
@@ -436,7 +479,7 @@ G4VPhysicalVolume* physPhantom = new G4PVPlacement(0, G4ThreeVector(0, 0, -Phant
 
 
 //& Número de detectores en cada fila y columna d
-G4int numDetectors =  61; // 23;  
+G4int numDetectors =  1; // 23;  
 
 G4int outerNumDetectors =0  ; //31;
 //& Separación
