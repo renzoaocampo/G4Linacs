@@ -2,9 +2,6 @@
 build/
 */build/
 
-# Ignorar carpeta build específica en Windows (ruta absoluta no se usa en gitignore)
-# Basta con ignorar la carpeta dentro del repo:
-Halcyon6MV/build/
 
 # Archivos comunes a ignorar
 *.o
@@ -31,3 +28,7 @@ Makefile
 # Python
 __pycache__/
 *.pyc
+
+
+!STL_BASED/Halcyon6MV/tetgen/build/
+!STL_BASED/Halcyon6MV/tetgen/build/**

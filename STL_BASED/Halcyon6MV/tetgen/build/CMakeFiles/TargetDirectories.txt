@@ -1,0 +1,3 @@
+C:/tetgen/build/CMakeFiles/tet.dir
+C:/tetgen/build/CMakeFiles/ALL_BUILD.dir
+C:/tetgen/build/CMakeFiles/ZERO_CHECK.dir
