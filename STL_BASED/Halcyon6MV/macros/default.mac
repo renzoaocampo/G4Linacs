@@ -1,0 +1,123 @@
+# Archivo de macro por defecto para Geant4
+# Aquí se definen los parámetros de la simulación
+
+# Inicializar el detector y el resto del sistema
+/run/initialize
+
+# ---------------------------
+# Configuración del GPS (General Particle Source)
+# ---------------------------
+
+# Tipo de partícula a generar
+/gps/particle e-
+/gps/pos/centre 0 0 -0.25 cm
+/gps/pos/type Plane
+/gps/pos/shape Square
+/gps/pos/halfx 0.13 cm
+/gps/pos/halfy 0.13 cm 
+/gps/ang/type beam1d
+/gps/direction 0 0 1
+ 
+# ---------------------------
+# Espectro de energía definido por el usuario
+# ---------------------------
+
+/gps/ene/type User
+/gps/hist/type energy
+
+# Definición de los puntos del histograma de energía (valor [MeV], probabilidad relativa)
+
+/gps/hist/point 5.90 0.0037
+/gps/hist/point 5.91 0.0060
+/gps/hist/point 5.92 0.0094
+/gps/hist/point 5.93 0.0147
+/gps/hist/point 5.94 0.0224
+/gps/hist/point 5.95 0.0337
+/gps/hist/point 5.96 0.0500
+/gps/hist/point 5.97 0.0728
+/gps/hist/point 5.98 0.1044
+/gps/hist/point 5.99 0.1474
+/gps/hist/point 6.00 0.2047
+/gps/hist/point 6.01 0.2798
+/gps/hist/point 6.02 0.3764
+/gps/hist/point 6.03 0.4983
+/gps/hist/point 6.04 0.6492
+/gps/hist/point 6.05 0.8322
+/gps/hist/point 6.06 1.0500
+/gps/hist/point 6.07 1.3036
+/gps/hist/point 6.08 1.5928
+/gps/hist/point 6.09 1.9152
+/gps/hist/point 6.10 2.2662
+/gps/hist/point 6.11 2.6390
+/gps/hist/point 6.12 3.0241
+/gps/hist/point 6.13 3.4104
+/gps/hist/point 6.14 3.7849
+/gps/hist/point 6.15 4.1337
+/gps/hist/point 6.16 4.4429
+/gps/hist/point 6.17 4.6992
+/gps/hist/point 6.18 4.8914
+/gps/hist/point 6.19 5.0104
+/gps/hist/point 6.20 5.0507
+/gps/hist/point 6.21 5.0104
+/gps/hist/point 6.22 4.8914
+/gps/hist/point 6.23 4.6992
+/gps/hist/point 6.24 4.4429
+/gps/hist/point 6.25 4.1337
+/gps/hist/point 6.26 3.7849
+/gps/hist/point 6.27 3.4104
+/gps/hist/point 6.28 3.0241
+/gps/hist/point 6.29 2.6390
+/gps/hist/point 6.30 2.2662
+/gps/hist/point 6.31 1.9152
+/gps/hist/point 6.32 1.5928
+/gps/hist/point 6.33 1.3036
+/gps/hist/point 6.34 1.0500
+/gps/hist/point 6.35 0.8322
+/gps/hist/point 6.36 0.6492
+/gps/hist/point 6.37 0.4983
+/gps/hist/point 6.38 0.3764
+/gps/hist/point 6.39 0.2798
+/gps/hist/point 6.40 0.2047
+/gps/hist/point 6.41 0.1474
+/gps/hist/point 6.42 0.1044
+/gps/hist/point 6.43 0.0728
+/gps/hist/point 6.44 0.0500
+/gps/hist/point 6.45 0.0337
+/gps/hist/point 6.46 0.0224
+/gps/hist/point 6.47 0.0147
+/gps/hist/point 6.48 0.0094
+/gps/hist/point 6.49 0.0060
+/gps/hist/point 6.50 0.0037
+
+# ---------------------------
+# Número de partículas a generar
+# ---------------------------
+ 
+#/run/beamOn 2000000000 # Simular 2 millones de eventos 
+#/run/beamOn 2000000000 # Simular 2 millones de eventos 
+#/run/beamOn 2000000000 # Simular 2 millones de eventos 
+#/run/beamOn 2000000000 # Simular 2 millones de eventos 
+#/run/beamOn 2000000000 # Simular 2 millones de eventos 
+
+# ---------------------------
+# Visualización
+# ---------------------------
+
+/vis/open OGL                         # Abrir visualizador OpenGL
+ 
+/vis/drawVolume                       # Dibujar los volúmenes geométricos
+/vis/scene/add/axes                 # Agregar ejes XYZ a la escena
+/vis/scene/add/trajectories smooth    # Dibujar trayectorias suavizadas
+
+ 
+
+/vis/scene/add/hits                  # Mostrar hits
+#/vis/scene/add/digits                # Mostrar digits (si los hay)
+#/vis/scene/add/eventID               # Mostrar ID del evento
+
+/vis/viewer/set/autoRefresh true     # Refrescar automáticamente la escena
+/vis/viewer/flush
+/vis/viewer/zoom 1.5
+
+/vis/scene/endOfEventAction accumulate  # Acumular eventos visualizados
+/vis/scene/endOfRunAction accumulate    # Acumular eventos al final del run 
