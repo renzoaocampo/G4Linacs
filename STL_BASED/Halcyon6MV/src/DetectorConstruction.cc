@@ -1,11 +1,10 @@
 // ====================================================================
-// 1. MACRO CRÍTICA: Debe ser la primera línea absoluta del archivo.
-// Esto activa la lectura de 'TetrahedralMesh' dentro de CADMesh.hh
+// 1. MACRO CRÍTICA: Primera línea absoluta.
 // ====================================================================
 #define USE_CADMESH_TETGEN 1
 
 #include "DetectorConstruction.hh"
-#include "CADMesh.hh" // Debe ir DESPUÉS del define
+#include "CADMesh.hh"
 
 #include "G4RunManager.hh"
 #include "G4NistManager.hh"
@@ -16,56 +15,84 @@
 #include "G4AssemblyVolume.hh"
 #include "G4VisAttributes.hh"
 
-// ====================================================================
-// 2. IMPLEMENTACIÓN DE CONSTRUCTOR Y DESTRUCTOR (Faltaban en tu código)
-// ====================================================================
+// Librería para leer carpetas (requiere C++17)
+#include <filesystem>
+#include <iostream>
 
-// Constructor vacío (necesario porque lo declaraste en el .hh)
+namespace fs = std::filesystem;
+
+// ====================================================================
+// CONSTRUCTOR Y DESTRUCTOR
+// ====================================================================
 MyDetectorConstruction::MyDetectorConstruction()
  : G4VUserDetectorConstruction(), 
    fMessenger(nullptr),
    fScoringVolume(nullptr)
-{
-}
+{}
 
-// Destructor vacío
 MyDetectorConstruction::~MyDetectorConstruction()
-{
-}
+{}
 
 // ====================================================================
-// 3. MÉTODO CONSTRUCT
+// MÉTODO CONSTRUCT
 // ====================================================================
 G4VPhysicalVolume* MyDetectorConstruction::Construct()
 {
+    // 1. Definir Materiales
     G4NistManager* nist = G4NistManager::Instance();
     G4Material* worldMat = nist->FindOrBuildMaterial("G4_AIR");
-    G4Material* boneMat  = nist->FindOrBuildMaterial("G4_Pb");
-    G4Material* waterMat = nist->FindOrBuildMaterial("G4_WATER");
+    
+    // Usaremos Plomo (Pb) para el MLC (Multileaf Collimator)
+    G4Material* mlcMat = nist->FindOrBuildMaterial("G4_Pb"); 
 
-    // --- World ---
+    // 2. Definir World
     G4Box* solidWorld = new G4Box("World", 2.*m, 2.*m, 2.*m);
     G4LogicalVolume* logicWorld = new G4LogicalVolume(solidWorld, worldMat, "World");
     G4VPhysicalVolume* physWorld = new G4PVPlacement(0, G4ThreeVector(), logicWorld, "World", 0, false, 0, true);
 
-    // --- Carga Pelvis (Malla Tetraédrica) ---
-    //
-    // CAMBIO REALIZADO: Usar FromPLY en lugar de FromSTL
-    auto meshPelvis = CADMesh::TetrahedralMesh::FromPLY(
-        "C:\\Users\\renzo\\Downloads\\MLC_HALCYON_STL\\ply\\304.ply");
-    meshPelvis->SetScale(1*cm); 
-    meshPelvis->SetOffset(G4ThreeVector(0, 0, 0));
-    meshPelvis->SetMaterial(boneMat);
+    // 3. Bucle para cargar TODOS los archivos PLY de la carpeta
+    std::string folderPath = "C:\\Users\\renzo\\Downloads\\MLC_HALCYON_STL\\ply";
+    
+    G4cout << "--- INICIANDO CARGA MASIVA DE PLY ---" << G4endl;
 
-    G4AssemblyVolume* assemblyPelvis = meshPelvis->GetAssembly();
+    // Iterar sobre cada archivo en el directorio
+    for (const auto& entry : fs::directory_iterator(folderPath)) {
+        
+        // Verificar que sea un archivo y que tenga extensión .ply
+        if (entry.is_regular_file() && entry.path().extension() == ".ply") {
+            
+            // Convertir ruta a string
+            std::string filePath = entry.path().string();
+            G4cout << "Cargando: " << filePath << G4endl;
 
-    // Variables explícitas para evitar errores de referencia en Windows
-    G4ThreeVector posPelvis = G4ThreeVector(0, 0, 0);
-    G4RotationMatrix* rotPelvis = new G4RotationMatrix();
-    assemblyPelvis->MakeImprint(logicWorld, posPelvis, rotPelvis);
+            // a) Cargar Malla
+            auto mesh = CADMesh::TetrahedralMesh::FromPLY(filePath);
+            
+            // b) Configuración
+            // NOTA: SetScale(1.0) mantiene el tamaño original del PLY (mm).
+            // Si usas 10*cm, estás escalando x100 (muy grande). Ajusta según necesidad.
+            mesh->SetScale(1.0); 
+            
+            // Offset: Asumimos que la posición relativa (X,Y) viene correcta desde Blender.
+            // Solo desplazamos en Z si es necesario.
+            mesh->SetOffset(G4ThreeVector(0, 0, 0));
+            
+            // c) Material
+            mesh->SetMaterial(mlcMat);
 
-   
-     
+            // d) Obtener Ensamblaje y Colocar
+            G4AssemblyVolume* assembly = mesh->GetAssembly();
+
+            // Variables para placement
+            G4ThreeVector position = G4ThreeVector(0, 0, 0);
+            G4RotationMatrix* rotation = new G4RotationMatrix();
+            
+            // Imprimir en el mundo
+            assembly->MakeImprint(logicWorld, position, rotation);
+        }
+    }
+    
+    G4cout << "--- CARGA COMPLETA ---" << G4endl;
 
     return physWorld;
 }
