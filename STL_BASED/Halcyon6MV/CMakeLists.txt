@@ -5,7 +5,7 @@ project(Simulation LANGUAGES CXX)
 find_package(Geant4 REQUIRED ui_all vis_all)
 
 # --- Configuración TetGen (Windows) ---
-set(TETGEN_DIR "C:/tetgen")                  
+set(TETGEN_DIR "${PROJECT_SOURCE_DIR}/tetgen")                  
 set(TETGEN_LIB "${TETGEN_DIR}/build/Release/tet.lib") 
 
 file(GLOB SOURCES ${PROJECT_SOURCE_DIR}/src/*.cc)
