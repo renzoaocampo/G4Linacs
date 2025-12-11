@@ -98,7 +98,7 @@
 /process/em/setDirectionalSplittingTarget 0 0 0 cm 
 /process/em/setDirectionalSplittingRadius 29.7 cm 
 /process/em/setSecBiasing eBrem TargetRegion 20 7 MeV 
-#/run/beamOn 2000000000 # Simular 2 millones de eventos 
+/run/beamOn 2000000000 # Simular 2 millones de eventos 
 
 # ---------------------------
 # Visualización

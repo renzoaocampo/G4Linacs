@@ -1,5 +1,6 @@
 #ifndef CONSTRUCTION_HH
 #define CONSTRUCTION_HH
+#include "G4SDManager.hh"
 
 #include "G4VUserDetectorConstruction.hh"
 #include "G4VPhysicalVolume.hh"
@@ -13,7 +14,8 @@
 #include "G4OpticalSurface.hh"
 #include "G4LogicalBorderSurface.hh"
 #include "G4LogicalSkinSurface.hh"
- 
+
+#include "SensitiveDetector.hh"
 
 class MyDetectorConstruction : public G4VUserDetectorConstruction
 { 
@@ -28,10 +30,12 @@ public:
 
 private:
     G4Box *solidWorld,   *solidDetector   ;
-    G4LogicalVolume *logicWorld,  *logicDetector  ,*logicmosfet , *logicVoxel;
+    G4LogicalVolume *logicWorld,  *logicDetector  ,*logicmosfet,*logicVoxel ;
     G4VPhysicalVolume *physWorld, *physDetector  ;
  
- 
+
+    void DefineMaterials();
+    virtual void ConstructSDandField();
 
     G4GenericMessenger *fMessenger;
 

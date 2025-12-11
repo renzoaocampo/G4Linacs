@@ -6,6 +6,7 @@
 #include "DetectorConstruction.hh"
 #include "CADMesh.hh"
 
+#include "SensitiveDetector.hh"
 #include "G4Region.hh"
 #include "G4RunManager.hh"
 #include "G4NistManager.hh"
@@ -27,18 +28,14 @@
 #include <algorithm>
 #include <cctype>
 #include <memory>
+#include <cstdlib>
 
 namespace fs = std::filesystem;
 
 // ====================================================================
 // CONSTRUCTOR Y DESTRUCTOR
 // ====================================================================
-MyDetectorConstruction::MyDetectorConstruction()
- : G4VUserDetectorConstruction(), 
-   fMessenger(nullptr),
-   fScoringVolume(nullptr)
-{}
-
+MyDetectorConstruction::MyDetectorConstruction() {} 
 MyDetectorConstruction::~MyDetectorConstruction()
 {}
 
@@ -46,6 +43,8 @@ MyDetectorConstruction::~MyDetectorConstruction()
 // MÉTODO CONSTRUCT
 // ====================================================================
 G4VPhysicalVolume* MyDetectorConstruction::Construct()
+
+
 {
     // 1. Definir Materiales
     G4NistManager* nist = G4NistManager::Instance();
@@ -265,6 +264,18 @@ new G4PVPlacement(0, G4ThreeVector(0, 0,   20.6325 * cm),
     folderMaterialMap["mesa"] = matBaseMesa;
     folderMaterialMap["base"] = matBaseMesa;
 
+    // Valor por defecto para offset Z de la mesa (cm). Se puede sobreescribir
+    // con la variable de entorno G4LINACS_MESA_Z_OFFSET_CM (valor en cm).
+    double mesaOffsetCm = 20.0;
+    if (const char* env = std::getenv("G4LINACS_MESA_Z_OFFSET_CM")) {
+        try {
+            mesaOffsetCm = std::stod(env);
+            G4cout << "G4LINACS_MESA_Z_OFFSET_CM detectado: " << mesaOffsetCm << " cm" << G4endl;
+        } catch (...) {
+            G4cerr << "WARNING: G4LINACS_MESA_Z_OFFSET_CM no numérico, usando " << mesaOffsetCm << " cm" << G4endl;
+        }
+    }
+
     G4cout << "--- INICIANDO CARGA MASIVA DE PLY (recursiva por carpetas) ---" << G4endl;
 
     if (fs::exists(ply_root)) {
@@ -303,13 +314,13 @@ new G4PVPlacement(0, G4ThreeVector(0, 0,   20.6325 * cm),
             mesh->SetOffset(G4ThreeVector(0, 0, 0));
 
             // Seleccionar material según carpeta
-            G4Material* chosenMat = mlcMat; // por defecto
+            G4Material* chosenMat = mlcMat; // por defecto: Tungsteno (MLCs)
             auto it = folderMaterialMap.find(parentFolder);
             if (it != folderMaterialMap.end() && it->second) {
                 chosenMat = it->second;
                 G4cout << "  -> Carpeta: " << parentFolder << " -> material asignado." << G4endl;
             } else {
-                G4cout << "  -> Carpeta: " << parentFolder << " -> material por defecto (MLC Pb)." << G4endl;
+                G4cout << "  -> Carpeta: " << parentFolder << " -> material por defecto (Tungsteno - MLCs)." << G4endl;
             }
 
             mesh->SetMaterial(chosenMat);
@@ -322,6 +333,12 @@ new G4PVPlacement(0, G4ThreeVector(0, 0,   20.6325 * cm),
 
             // Colocación
             G4ThreeVector position = G4ThreeVector(0, 0, 0);
+            // Si el PLY pertenece a la carpeta camilla, desplazar en Z según variable (por defecto +20 cm)
+            if (parentFolder == "camilla" || parentFolder.find("camilla") != std::string::npos) {
+                position += G4ThreeVector(0, 0, mesaOffsetCm*cm);
+                G4cout << "  -> Aplicando offset Z +" << mesaOffsetCm << " cm para carpeta: " << parentFolder << G4endl;
+            }
+
             G4RotationMatrix* rotation = new G4RotationMatrix();
             assembly->MakeImprint(logicWorld, position, rotation);
             delete rotation;
@@ -353,5 +370,179 @@ new G4PVPlacement(0, G4ThreeVector(0, 0,   20.6325 * cm),
     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+//?//?//?//?//?//?//?//?//?//?//?//?//?//?
+//* FANTOMA  
+//?//?//?//?//?//?//?//?//?//?//?//?//?//?
+
+ 
+ 
+    G4double PhantomX = 50*cm;
+    G4double PhantomY = 50*cm;
+    G4double PhantomZ =50*cm;
+    G4Material* phantomMaterial =nist->FindOrBuildMaterial("G4_WATER");
+ 
+ 
+// Crear el volumen del fantoma principal de PMMA
+G4Box* solidPhantom = new G4Box("solidPhantom", PhantomX/2, PhantomY/2, PhantomZ/2);
+G4VSolid* solidPhantomWithHoles = solidPhantom; // Inicialmente, es el bloque completo
+
+  
+G4LogicalVolume* logicPhantom = new G4LogicalVolume(solidPhantom, phantomMaterial, "logicalPhantom");
+
+// Rotación y desplazamiento: rotar 180 grados en X y desplazar en Z (100 mm + media altura del fantoma)
+G4RotationMatrix* rotPhantom = new G4RotationMatrix();
+rotPhantom->rotateX(180.0*deg);
+G4double zShift = 100.0*cm + PhantomZ/2.0;
+
+// Colocar el fantoma en el mundo con rotación y desplazamiento en Z
+G4VPhysicalVolume* physPhantom = new G4PVPlacement(rotPhantom,
+                                                    G4ThreeVector(0, 0, zShift),
+                                                    logicPhantom,
+                                                    "physPhantom",
+                                                    logicWorld,
+                                                    false,
+                                                    0,
+                                                    true);
+    
+
+
+
+//& Número de detectores en cada fila y columna d
+G4int numDetectors = 41; //61; // 23;  
+  
+G4double separation = 0.5*cm;  
+G4int numLayers = 5; //7
+G4double layerSeparation =  0.5*cm; 
+G4double profundidadGrupo= 0.3*cm;
+
+
+  
+
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^v
+//^^Detector   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^v
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^v
+//*-INTERNOS-
+
+ G4double SDiodeX = 0.5*cm;
+ G4double SDiodeY = 0.5*cm;
+ G4double SDiodeZ = 0.5*cm;   
+ 
+// Crear el volumen sólido del detector
+  solidDetector = new G4Box("solidDetector", SDiodeX/2, SDiodeY/2, SDiodeZ/2);
+
+// Crear el volumen lógico del detector
+  logicVoxel = new G4LogicalVolume(solidDetector,phantomMaterial, "logicDetector");
+    G4int ndet =1;
+// Colocar los detectores en la cuadrícula y capas
+for(G4int layer = 0; layer < numLayers; layer++) {
+    for(G4int i = 0; i < numDetectors; i++) {
+        for(G4int j = 0; j < numDetectors; j++) {
+            G4double xPos = -0.5*(numDetectors-1)*separation + i*separation;
+            G4double yPos = -0.5*(numDetectors-1)*separation + j*separation;
+            G4double zPos = +PhantomZ/2-profundidadGrupo -layer * (layerSeparation)   ;
+            
+            G4VPhysicalVolume *physDetector = new G4PVPlacement(
+                0,
+                G4ThreeVector(xPos, yPos, zPos),
+                logicVoxel,
+                "physDetector",
+                logicPhantom,
+                false,
+                ndet
+                
+            );
+            ndet++;
+        } 
+}
+}
+  
+ 
+ 
+
+ 
+
+
+
+
+
+
+
+
+//& Número de detectores en cada fila y columna d  
+ numLayers = 6; //7
+ layerSeparation = 5*cm; 
+  profundidadGrupo= 5*cm;
+
+
+ 
+
+ 
+// Colocar los detectores en la cuadrícula y capas
+for(G4int layer = 0; layer < numLayers; layer++) {
+    for(G4int i = 0; i < numDetectors; i++) {
+        for(G4int j = 0; j < numDetectors; j++) {
+            G4double xPos = -0.5*(numDetectors-1)*separation + i*separation;
+            G4double yPos = -0.5*(numDetectors-1)*separation + j*separation;
+            G4double zPos = +PhantomZ/2-profundidadGrupo -layer * (layerSeparation)   ;
+            
+            G4VPhysicalVolume *physDetector = new G4PVPlacement(
+                0,
+                G4ThreeVector(xPos, yPos, zPos),
+                logicVoxel,
+                "physDetector",
+                logicPhantom,
+                false,
+                ndet
+                
+            );
+            ndet++;
+        } 
+}
+}
+  
+ 
+ 
+
+
     return physWorld;
 }
+
+
+
+void MyDetectorConstruction::ConstructSDandField() {
+    auto sensDet = new MySensitiveDetector("SensitiveDetector", "TrackerHitsCollection");
+    G4SDManager::GetSDMpointer()->AddNewDetector(sensDet);
+
+    if (logicVoxel != nullptr) {
+        logicVoxel->SetSensitiveDetector(sensDet);
+    }
+} 
