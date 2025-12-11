@@ -51,8 +51,18 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
     G4VPhysicalVolume* physWorld = new G4PVPlacement(0, G4ThreeVector(), logicWorld, "World", 0, false, 0, true);
 
     // 3. Bucle para cargar TODOS los archivos PLY de la carpeta
-    std::string folderPath = "C:\\Users\\renzo\\Downloads\\MLC_HALCYON_STL\\ply";
-    
+    // Resolver la carpeta de PLY relativa al directorio de ejecución
+    // (se asume que la simulación se ejecuta desde build/Release)
+    fs::path exec_cwd = fs::current_path();
+    fs::path folder = exec_cwd.parent_path().parent_path() / "ply" / "MLCs";
+    std::string folderPath = folder.string();
+
+    if (!fs::exists(folder)) {
+        G4cerr << "WARNING: carpeta PLY no encontrada: " << folderPath << G4endl;
+    } else {
+        G4cout << "Cargando PLY desde: " << folderPath << G4endl;
+    }
+
     G4cout << "--- INICIANDO CARGA MASIVA DE PLY ---" << G4endl;
 
     // Iterar sobre cada archivo en el directorio
@@ -71,7 +81,7 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
             // b) Configuración
             // NOTA: SetScale(1.0) mantiene el tamaño original del PLY (mm).
             // Si usas 10*cm, estás escalando x100 (muy grande). Ajusta según necesidad.
-            mesh->SetScale(1.0); 
+            mesh->SetScale(10); 
             
             // Offset: Asumimos que la posición relativa (X,Y) viene correcta desde Blender.
             // Solo desplazamos en Z si es necesario.
