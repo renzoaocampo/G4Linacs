@@ -10,6 +10,8 @@
 #include "G4RunManager.hh"
 #include "G4NistManager.hh"
 #include "G4Box.hh"
+#include "G4Tubs.hh"
+#include "G4Cons.hh"
 #include "G4LogicalVolume.hh"
 #include "G4PVPlacement.hh"
 #include "G4SystemOfUnits.hh"
@@ -20,6 +22,11 @@
 
 #include <filesystem>
 #include <iostream>
+#include <string>
+#include <unordered_map>
+#include <algorithm>
+#include <cctype>
+#include <memory>
 
 namespace fs = std::filesystem;
 
@@ -43,9 +50,8 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
     // 1. Definir Materiales
     G4NistManager* nist = G4NistManager::Instance();
     G4Material* worldMat = nist->FindOrBuildMaterial("G4_AIR");
-    G4Material* mlcMat = nist->FindOrBuildMaterial("G4_Pb"); 
+    G4Material* mlcMat = nist->FindOrBuildMaterial("G4_W");
     
-
 
 
 
@@ -68,7 +74,7 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
     G4Material* matCu     = nist->FindOrBuildMaterial("G4_Cu"); 
 
     // 2. Definir World
-    G4Box* solidWorld = new G4Box("World", 2.*m, 2.*m, 2.*m);
+    G4Box* solidWorld = new G4Box("World", 5.*m, 5.*m, 5.*m);
     G4LogicalVolume* logicWorld = new G4LogicalVolume(solidWorld, worldMat, "World");
     logicWorld->SetVisAttributes(G4VisAttributes::GetInvisible()); // World invisible
     
@@ -79,6 +85,36 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
     mlcVisAtt->SetVisibility(true);
     mlcVisAtt->SetForceSolid(true); // Relleno sólido
 
+    // Atributo universal: todos los volúmenes visibles y sólidos
+    G4VisAttributes* solidVisAtt = new G4VisAttributes();
+    solidVisAtt->SetVisibility(true);
+    solidVisAtt->SetForceSolid(true);
+
+
+
+
+
+
+    
+
+    // ==========================================================
+    // COLIMADOR PRIMARIO (tu forma actual, no la MCNP)
+    // ==========================================================
+    G4Cons* solidPrimColl =
+        new G4Cons("PrimColl",
+                   0.4*cm,       // rmin1
+                   3.557*cm,     // rmax1
+                   1.945*cm,     // rmin2
+                   3.557*cm,     // rmax2
+                   5.1*cm,       // hz
+                   0, 360*deg);
+
+    G4LogicalVolume* logicPrimColl =
+        new G4LogicalVolume(solidPrimColl, matW, "PrimColl");
+
+    new G4PVPlacement(
+        0, G4ThreeVector(0,0,2.7*cm),
+        logicPrimColl,"PrimColl",logicWorld,false,0,true);
 
 
 
@@ -142,15 +178,35 @@ TargetRegion->AddRootLogicalVolume(logic13);
             logic14,"TARGET_14",logicWorld,false,0,true);
     }
 
- 
+   
+//*========= Revestimiento =========
+G4Tubs* revestimiento = new G4Tubs("Revestimiento",
+    63.26 * cm, 68.34 * cm,
+    59.625 * cm / 2, 0, 360 * deg);
 
+G4LogicalVolume* logicRevestimiento = new G4LogicalVolume(
+    revestimiento, matFe, "LogicRevestimiento");
+
+new G4PVPlacement(0, G4ThreeVector(0, 0,   20.6325 * cm),
+    logicRevestimiento, "Revestimiento", logicWorld, false, 0, true);
+
+
+
+    // ==========================================================
+    // COLIMADORES PRIMARIOS (Primary Collimators)
+    // Material: m91 (W puro) = G4_W
+    // ==========================================================
+
+    // Declare logical volumes at function scope
+ 
+    
     // ==========================================================
     // VISUALIZACIÓN
     // ========================================================== 
     // logicPrimColl->SetVisAttributes(new G4VisAttributes(G4Color(1,0,0)));
     logicPlatePbSb->SetVisAttributes(new G4VisAttributes(G4Color(0.3,0.3,0.3)));
-
-
+ 
+   
 
 
 
@@ -177,41 +233,98 @@ TargetRegion->AddRootLogicalVolume(logic13);
 
 
     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    //!!!!!!!!!!!! MLCs DESDE PLY !!!!!!!!!!!!!!!!!!!!!
+    //!!!!!!!!!!!! PLYs DESDE CARPETA ply !!!!!!!!!!!!!!
     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // 4. Bucle de Carga
+    // 4. Bucle de Carga (recursivo desde <exec>/../../ply)
     fs::path exec_cwd = fs::current_path();
-    fs::path folder = exec_cwd.parent_path().parent_path() / "ply" / "MLCs";
-    std::string folderPath = folder.string();
+    fs::path ply_root = exec_cwd.parent_path().parent_path() / "ply";
 
-    if (!fs::exists(folder)) {
-        G4cerr << "WARNING: carpeta PLY no encontrada: " << folderPath << G4endl;
+    if (!fs::exists(ply_root)) {
+        G4cerr << "WARNING: carpeta raíz ply no encontrada: " << ply_root.string() << G4endl;
     } else {
-        G4cout << "Cargando PLY desde: " << folderPath << G4endl;
+        G4cout << "Buscando PLY recursivamente en: " << ply_root.string() << G4endl;
     }
 
-    G4cout << "--- INICIANDO CARGA MASIVA DE PLY ---" << G4endl;
+    // Crear materiales específicos y mapa carpeta->material
+    G4Element* elH = nist->FindOrBuildElement("H");
+    G4Element* elC = nist->FindOrBuildElement("C");
+    G4Element* elO = nist->FindOrBuildElement("O");
 
-    for (const auto& entry : fs::directory_iterator(folderPath)) {
-        if (entry.is_regular_file() && entry.path().extension() == ".ply") {
-            
+    // Treatment bed (por ejemplo carpeta "camilla")
+    G4Material* matTreatmentBed = new G4Material("TreatmentBed", 1.0*g/cm3, 3);
+    matTreatmentBed->AddElement(elH, 0.057444);
+    matTreatmentBed->AddElement(elC, 0.774589);
+    matTreatmentBed->AddElement(elO, 0.167968);
+
+    // Base de mesa (por ejemplo carpeta "mesa" o "base")
+    G4Material* matBaseMesa = nist->FindOrBuildMaterial("G4_Fe");
+
+    // Mapa carpeta -> material (usar nombres en minúsculas)
+    std::unordered_map<std::string, G4Material*> folderMaterialMap;
+    folderMaterialMap["camilla"] = matTreatmentBed;
+    folderMaterialMap["mesa"] = matBaseMesa;
+    folderMaterialMap["base"] = matBaseMesa;
+
+    G4cout << "--- INICIANDO CARGA MASIVA DE PLY (recursiva por carpetas) ---" << G4endl;
+
+    if (fs::exists(ply_root)) {
+        for (const auto& entry : fs::recursive_directory_iterator(ply_root)) {
+            if (!entry.is_regular_file()) continue;
+            if (entry.path().extension() != ".ply") continue;
+
             std::string filePath = entry.path().string();
             G4cout << "Cargando: " << filePath << G4endl;
 
-            auto mesh = CADMesh::TetrahedralMesh::FromPLY(filePath);
-            
-            mesh->SetScale(10.0); 
+            // Obtener carpeta padre y normalizar a minúsculas
+            std::string parentFolder = entry.path().parent_path().filename().string();
+            std::transform(parentFolder.begin(), parentFolder.end(), parentFolder.begin(),
+                           [](unsigned char c){ return std::tolower(c); });
+
+            // Intentar cargar la malla de forma segura (FromPLY devuelve std::shared_ptr)
+            std::shared_ptr<CADMesh::TetrahedralMesh> meshPtr;
+            try {
+                meshPtr = CADMesh::TetrahedralMesh::FromPLY(filePath);
+            } catch (const std::exception& e) {
+                G4cerr << "ERROR: excepción al cargar PLY: " << e.what() << " -> " << filePath << G4endl;
+                continue;
+            } catch (...) {
+                G4cerr << "ERROR: excepción desconocida al cargar PLY -> " << filePath << G4endl;
+                continue;
+            }
+
+            if (!meshPtr) {
+                G4cerr << "ERROR: mesh nula para " << filePath << G4endl;
+                continue;
+            }
+
+            auto mesh = meshPtr.get();
+
+            mesh->SetScale(10.0);
             mesh->SetOffset(G4ThreeVector(0, 0, 0));
-            mesh->SetMaterial(mlcMat);
+
+            // Seleccionar material según carpeta
+            G4Material* chosenMat = mlcMat; // por defecto
+            auto it = folderMaterialMap.find(parentFolder);
+            if (it != folderMaterialMap.end() && it->second) {
+                chosenMat = it->second;
+                G4cout << "  -> Carpeta: " << parentFolder << " -> material asignado." << G4endl;
+            } else {
+                G4cout << "  -> Carpeta: " << parentFolder << " -> material por defecto (MLC Pb)." << G4endl;
+            }
+
+            mesh->SetMaterial(chosenMat);
 
             G4AssemblyVolume* assembly = mesh->GetAssembly();
+            if (!assembly) {
+                G4cerr << "ERROR: assembly nulo para " << filePath << G4endl;
+                continue;
+            }
 
             // Colocación
             G4ThreeVector position = G4ThreeVector(0, 0, 0);
             G4RotationMatrix* rotation = new G4RotationMatrix();
             assembly->MakeImprint(logicWorld, position, rotation);
-            
-            delete rotation; 
+            delete rotation;
         }
     }
     
@@ -219,8 +332,7 @@ TargetRegion->AddRootLogicalVolume(logic13);
     // 5. APLICAR VISUALIZACIÓN (SOLUCIÓN STORE)
     // -------------------------------------------------------------
     // Iteramos sobre TODOS los volúmenes lógicos creados en la simulación.
-    // Si el volumen tiene el material de las MLCs, le aplicamos el estilo.
-    // Esto evita el error de "GetTriplets" porque no tocamos el assembly.
+    // Aplicamos estilos visuales específicos.
     
     G4LogicalVolumeStore* store = G4LogicalVolumeStore::GetInstance();
     
