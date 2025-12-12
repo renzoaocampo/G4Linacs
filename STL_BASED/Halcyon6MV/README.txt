@@ -1,12 +1,12 @@
 Halcyon. 
 Target 0
-SSD 90
+SSD 100
+
+campo: por defecto 
 
 
-implementado :
-    Target
-    filtro de cobre y pbsn
-    colimador primario
+G4 + CADMESH + TETGEN
 
-pendientes:
-Faltan jaws mlcs y otros elementos
+TETGEN PERCOMPILADO Y LIGADO AL CMAKE. SI FALLA, VOLVER A COMPILAR Y APUNTAR AL DIRECTORIO CORRECTO
+
+This example runs a simulation of geant4 loading the mlcs of a Halcyon Linac using CADMESH + TETGEN 
